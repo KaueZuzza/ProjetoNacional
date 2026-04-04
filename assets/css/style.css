@@ -407,3 +407,114 @@ nav a:hover {
     color: white;
     margin-top: 50px;
 }
+
+/* --- AJUSTES DE RESPONSIVIDADE GERAL --- */
+
+/* Ajuste do Container principal para não "esmagar" no celular */
+.container {
+    height: 100%;
+    margin: 20px auto;
+    padding: 0 15px; /* Reduzi a margem lateral de 60px para 15px em telas menores */
+}
+
+/* --- HEADER RESPONSIVO --- */
+@media (max-width: 768px) {
+    .headerTopo {
+        display: none; /* Esconde o topo com frete grátis no celular para economizar espaço */
+    }
+
+    .headerMain {
+        flex-direction: column; /* Empilha Logo, Busca e Nav */
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .search-bar {
+        margin: 0;
+        width: 100%; /* Busca ocupa a largura toda */
+        order: 2;    /* Fica no meio */
+    }
+
+    .logo {
+        height: 50px;
+        order: 1;    /* Fica no topo */
+    }
+
+    nav {
+        order: 3;    /* Links ficam embaixo */
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    nav a {
+        margin-left: 0;
+        font-size: 12px;
+    }
+}
+
+/* --- BANNER RESPONSIVO (Refinado) --- */
+@media (max-width: 900px) {
+    .banner {
+        grid-template-columns: 1fr; /* Vira uma coluna única */
+        grid-template-rows: auto;
+        padding: 10px;
+    }
+
+    .bannerDestaque {
+        grid-row: auto;
+        height: 300px; /* Altura fixa para não ficar gigante */
+    }
+
+    .bannerConteudo h2 {
+        font-size: 1.8rem;
+    }
+
+    .bannerMenor {
+        height: 150px; /* Altura menor para os banners secundários */
+    }
+}
+
+/* --- GRID DE PRODUTOS --- */
+/* O auto-fit que você já usa é ótimo, apenas ajuste o tamanho mínimo */
+.products {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Cabe 2 produtos por linha no celular */
+    gap: 15px;
+    padding: 20px 0;
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        padding: 10px;
+    }
+    
+    .product-card h3 {
+        font-size: 0.9rem;
+    }
+    
+    .product-card p {
+        font-size: 1.1rem;
+    }
+
+    .product-card img {
+        height: 150px;
+    }
+}
+
+/* --- CATEGORIAS --- */
+/* Adiciona um scroll horizontal se os ícones não couberem */
+@media (max-width: 600px) {
+    .categorias-grid {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 10px;
+        flex-wrap: nowrap; /* Força o scroll horizontal no mobile */
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .categoria-item {
+        flex: 0 0 auto; /* Impede os ícones de encolherem */
+    }
+}
