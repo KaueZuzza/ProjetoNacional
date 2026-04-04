@@ -1,0 +1,409 @@
+/* Importação da Fonte */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+/* Variáveis de Cores - Centralize tudo aqui */
+:root {
+    --primary: #db0004;         /* Vermelho Nacional */
+    --primary-dark: #560000;    /* Vermelho Topo */
+    --primary-main: #b30000;    /* Vermelho Header */
+    --secondary: #ffffff;
+    --text-white: #ffffff;
+    --text-dark: #333333;
+    --accent: #ff6600;          /* Cor de destaque para botões */
+    --gray-bg: #f4f4f4;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset e Configurações Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    letter-spacing: 0.5px;
+    background: var(--gray-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* --- HEADER --- */
+.header {
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+}
+
+/* TOPO (Promoções e Login) */
+.headerTopo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-dark);
+    color: var(--text-white);
+    min-height: 35px;
+    padding: 0 5%;
+    font-size: 12px;
+}
+
+.headerTopo .infoHeader {
+    display: flex;
+    gap: 20px;
+}
+
+.headerTopo .linksHeaderTopo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.headerTopo .linksHeaderTopo a, 
+.headerTopo .linksHeaderTopo p {
+    color: var(--text-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.headerTopo button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: 0.3s;
+}
+
+.headerTopo button:hover {
+    background: white;
+    color: var(--primary-dark);
+}
+
+/* HEADER PRINCIPAL */
+.headerMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-main);
+    padding: 15px 5%;
+    height: 100px;
+}
+
+.logo {
+    height: 60px;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* BARRA DE BUSCA */
+.search-bar {
+    display: flex;
+    flex: 1;
+    max-width: 500px;
+    margin: 0 40px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-bar button {
+    padding: 0 20px;
+    border: none;
+    border-left: 2px solid rgb(196, 196, 196);
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-bar button:hover {
+    background:rgb(196, 196, 196);
+}
+
+.search-button img {
+    width: 20px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* NAVEGAÇÃO */
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+.container {
+    height: 100%;
+    margin: 30px 60px;
+}
+
+/* --- BANNER --- */
+.banner {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2 partes para o grande, 1 para os pequenos */
+    grid-template-rows: 190px 190px; /* Define uma altura fixa para as duas linhas */
+    gap: 15px;
+    padding: 20px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* BANNER PRINCIPAL (ESQUERDA) */
+.bannerDestaque {
+    grid-row: 1 / span 2;
+    position: relative;
+    /* Usando sua imagem de fundo */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                      url('../images/FotoDestaquePrincipal.jpeg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    padding: 30px; /* Espaço das bordas */
+    height: 100%; /* Garante que ocupa a altura do grid */
+}
+
+.bannerConteudo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Título no topo, botão no fim */
+    align-items: center; /* Centraliza os itens na largura */
+    height: 100%; /* Ocupa toda a altura disponível do banner */
+    width: 100%;
+}
+
+.bannerConteudo h2 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0; /* Remove margens que podem desalinhá-lo */
+}
+
+.bannerConteudo button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    /* Garante que o botão não suba */
+    margin-top: auto; 
+}
+
+.bannerConteudo button:hover {
+    background-color: var(--primary-main);
+    transform: scale(1.05);
+}
+
+/* BANNERS MENORES (DIREITA) */
+.bannerMenor {
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+
+.bannerMenor h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    z-index: 2;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.destaque1 {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('../images/FotoDestaque1.jpeg');
+}
+
+.destaque2 {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('../images/FotoDestaque2.jpeg');
+}
+
+.bannerMenor:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.1);
+}
+
+/* RESPONSIVIDADE (Celular) */
+@media (max-width: 900px) {
+    .banner {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+    .bannerDestaque {
+        grid-row: auto;
+        height: 350px;
+        padding: 20px;
+    }
+    .bannerConteudo h2 { font-size: 1.8rem; }
+}
+.categorias-container {
+    padding: 40px 5%;
+    background-color: var(--secondary-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o título e o grid na página */
+}
+
+.categorias-grid {
+    display: flex;
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    flex-wrap: wrap;        /* Faz os itens descerem para a linha de baixo se não couberem */
+    gap: 30px;              /* Aumenta o afastamento entre os ícones */
+    width: 100%;
+    max-width: 1200px;      /* Impede que os ícones fiquem espalhados demais em telas ultra-wide */
+}
+
+.categoria-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 110px;           /* Largura fixa para manter o alinhamento do texto */
+    transition: transform 0.3s ease;
+}
+
+.categoria-item:hover {
+    transform: translateY(-5px);
+}
+
+.categoria-item .circulo {
+    width: 90px;
+    height: 90px;
+    background-color: #f9f9f9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #eeeeee;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    /* O SEGREDO ESTÁ AQUI: */
+    padding: 15px; /* Cria o afastamento interno para a imagem não tocar na borda */
+}
+
+.categoria-item:hover .circulo {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.categoria-item img {
+    width: 100%;
+    height: 100%;
+    /* Garante que a imagem apareça inteira sem cortes */
+    object-fit: contain; 
+}
+
+.categoria-item span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    text-align: center;
+}
+
+
+
+/* --- PRODUTOS --- */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 50px 5%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain; /* Melhor para fotos de produtos não cortarem */
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.product-card p {
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.product-card button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.product-card button:hover {
+    background: var(--primary-main);
+}
+
+/* --- FOOTER --- */
+.footer {
+    text-align: center;
+    padding: 40px;
+    background: #111;
+    color: white;
+    margin-top: 50px;
+}
