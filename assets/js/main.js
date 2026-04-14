@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       perfumes: 'Perfumes', esportes: 'Esportes', calcados: 'Calçados', acessorios: 'Acessórios',
       oferta: 'Oferta', novo: 'Novo', comprar: 'Comprar', adicionado: '✓ Adicionado!',
       toastCart: 'Produto adicionado ao carrinho! 🛒',
+      prodDestaque: 'Produtos em Destaque',
       footer: '© 2026 Lojas Nacional. Todos os direitos reservados.',
       carregando: 'Carregando...', igCaption: '📸 Siga no Instagram', langLabel: '🇧🇷 PT-BR',
     },
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
       perfumes: 'Perfumes', esportes: 'Sports', calcados: 'Footwear', acessorios: 'Accessories',
       oferta: 'Sale', novo: 'New', comprar: 'Buy Now', adicionado: '✓ Added!',
       toastCart: 'Product added to cart! 🛒',
+      prodDestaque: 'Featured Products',
       footer: '© 2026 Lojas Nacional. All rights reserved.',
       carregando: 'Loading...', igCaption: '📸 Follow on Instagram', langLabel: '🇺🇸 EN',
     },
@@ -178,6 +180,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2000);
 
     showToast(t.toastCart);
+  };
+
+  /* ---- WISHLIST ---- */
+  window.toggleWishlist = function (btn) {
+    const isActive = btn.classList.toggle('active');
+    btn.textContent = isActive ? '♥' : '♡';
+    const msg = window._lang === 'en'
+      ? (isActive ? 'Added to favorites! ♥' : 'Removed from favorites')
+      : (isActive ? 'Adicionado aos favoritos! ♥' : 'Removido dos favoritos');
+    showToast(msg);
   };
 
   /* ---- TOAST ---- */

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos - Lojas Nacional</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/products.css">
+  <link rel="icon" href="../assets/images/favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-logo">N</div>
+  <div class="loader-barra">
+    <div class="loader-progresso" id="loaderProgresso"></div>
+  </div>
+  <p class="loader-texto" data-i18n="carregando">Carregando...</p>
+</div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+
+  <div class="headerTopo">
+    <div class="infoHeader">
+      <div class="marquee-wrap">
+        <div class="marquee-track">
+          <span data-i18n="marquee">🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span data-i18n="marquee">🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    <div class="linksHeaderTopo">
+      <button id="themeToggle" class="theme-btn">🌙</button>
+      <a href="http://google.com" target="_blank" data-i18n="ajuda">Ajuda</a>
+      <span class="lang-tag" id="langToggle">🇧🇷 PT-BR</span>
+      <a href="login.html" class="link-login" data-i18n="login">Login</a>
+      <a href="cadastro.html" class="link-cadastro" data-i18n="cadastrese">Cadastre-se</a>
+    </div>
+  </div>
+
+  <div class="headerMain">
+    <a href="../index.html" class="logo-wrap">
+      <img src="../assets/images/Logo_FundoTransp.png" alt="Lojas Nacional" class="logo">
+    </a>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Buscar produtos..." data-i18n-ph="searchPh">
+      <button class="search-button" type="button">
+        <img src="../assets/images/Icons/procurar.png" alt="Buscar">
+      </button>
+    </div>
+
+    <nav class="nav">
+      <div class="app-qr-wrap">
+        <a href="#" id="appLink" data-i18n="baixeApp">Baixe o App</a>
+        <div class="app-qr-popup" id="appQrPopup">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https://www.instagram.com/lojasnacionalcapitaopoco" alt="QR Code Instagram">
+          <span data-i18n="igCaption">📸 Siga no Instagram</span>
+        </div>
+      </div>
+      <a href="../index.html" data-i18n="home">Home</a>
+      <a href="products.html" class="nav-active" data-i18n="produtos">Produtos</a>
+      <a href="cart.html" class="cart-link">
+        <span data-i18n="carrinho">🛒 Carrinho</span>
+        <span id="cartCount">0</span>
+      </a>
+    </nav>
+  </div>
+
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-wrap">
+  <div class="breadcrumb-inner">
+    <a href="../index.html" data-i18n="home">Home</a>
+    <span class="bc-sep">›</span>
+    <span data-i18n="produtos">Produtos</span>
+  </div>
+</div>
+
+<!-- HERO PRODUTOS -->
+<div class="produtos-hero">
+  <div class="produtos-hero-inner">
+    <div class="hero-texto">
+      <h1>Nossos Produtos</h1>
+      <p>Encontre moda, calçados, perfumes e muito mais</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong id="heroTotal">24</strong>
+        <span>Produtos</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <strong>4</strong>
+        <span>Categorias</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <strong>12x</strong>
+        <span>Sem juros</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS DE CATEGORIA -->
+<div class="cat-tabs-faixa">
+  <div class="cat-tabs-inner">
+    <button class="cat-tab active" data-cat="">
+      <span class="cat-tab-icon">🏪</span>
+      <span>Todos</span>
+    </button>
+    <button class="cat-tab" data-cat="calcados">
+      <span class="cat-tab-icon">👟</span>
+      <span>Calçados</span>
+    </button>
+    <button class="cat-tab" data-cat="acessorios">
+      <span class="cat-tab-icon">👜</span>
+      <span>Acessórios</span>
+    </button>
+    <button class="cat-tab" data-cat="infantil">
+      <span class="cat-tab-icon">👶</span>
+      <span>Infantil</span>
+    </button>
+    <button class="cat-tab" data-cat="perfumes">
+      <span class="cat-tab-icon">🌸</span>
+      <span>Perfumes</span>
+    </button>
+  </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="container">
+
+  <!-- BARRA MOBILE (filtros + ordenação) -->
+  <div class="mobile-filtro-bar">
+    <button class="btn-mobile-filtro" id="btnMobileFiltro">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+      </svg>
+      Filtros
+    </button>
+    <div class="sort-inline">
+      <select id="sortSelectMobile">
+        <option value="relevancia">Relevância</option>
+        <option value="menor">Menor Preço</option>
+        <option value="maior">Maior Preço</option>
+        <option value="vendidos">Mais Vendidos</option>
+        <option value="novos">Novidades</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="produtos-layout">
+
+    <!-- ==================== SIDEBAR FILTROS ==================== -->
+    <aside class="filtros-sidebar" id="filtrosSidebar">
+
+      <div class="filtros-header">
+        <h3>Filtros</h3>
+        <button class="btn-limpar" id="limparFiltros">Limpar tudo</button>
+      </div>
+
+      <!-- Tags ativas -->
+      <div class="filtros-ativos" id="filtrosAtivos"></div>
+
+      <!-- CATEGORIA -->
+      <div class="filtro-grupo">
+        <button class="filtro-titulo-btn" data-target="grupoCategoria">
+          <span>Categoria</span>
+          <svg class="filtro-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filtro-opcoes" id="grupoCategoria">
+          <label class="filtro-check">
+            <input type="checkbox" name="cat" value="calcados">
+            Calçados
+            <span class="filtro-count" id="cnt-calcados">0</span>
+          </label>
+          <label class="filtro-check">
+            <input type="checkbox" name="cat" value="acessorios">
+            Acessórios
+            <span class="filtro-count" id="cnt-acessorios">0</span>
+          </label>
+          <label class="filtro-check">
+            <input type="checkbox" name="cat" value="infantil">
+            Infantil
+            <span class="filtro-count" id="cnt-infantil">0</span>
+          </label>
+          <label class="filtro-check">
+            <input type="checkbox" name="cat" value="perfumes">
+            Perfumes
+            <span class="filtro-count" id="cnt-perfumes">0</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- FAIXA DE PREÇO -->
+      <div class="filtro-grupo">
+        <button class="filtro-titulo-btn" data-target="grupoPreco">
+          <span>Faixa de Preço</span>
+          <svg class="filtro-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filtro-opcoes" id="grupoPreco">
+          <div class="price-range-wrap">
+            <div class="price-range-labels">
+              <span>R$ 0</span>
+              <span id="priceMaxLabel">R$ 350</span>
+            </div>
+            <input type="range" id="priceRange" min="0" max="350" value="350" step="10">
+          </div>
+        </div>
+      </div>
+
+      <!-- AVALIAÇÃO -->
+      <div class="filtro-grupo">
+        <button class="filtro-titulo-btn" data-target="grupoRating">
+          <span>Avaliação</span>
+          <svg class="filtro-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filtro-opcoes" id="grupoRating">
+          <label class="filtro-check rating-check">
+            <input type="checkbox" name="rating" value="5">
+            <span class="stars-filter">★★★★★</span>
+          </label>
+          <label class="filtro-check rating-check">
+            <input type="checkbox" name="rating" value="4">
+            <span class="stars-filter">★★★★☆</span>
+            <span class="filtro-ou">ou +</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- TIPO -->
+      <div class="filtro-grupo">
+        <button class="filtro-titulo-btn" data-target="grupoTipo">
+          <span>Tipo</span>
+          <svg class="filtro-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filtro-opcoes" id="grupoTipo">
+          <label class="filtro-check">
+            <input type="checkbox" name="tipo" value="oferta" id="filterOferta">
+            <span class="tipo-badge badge-oferta">Oferta</span>
+          </label>
+          <label class="filtro-check">
+            <input type="checkbox" name="tipo" value="novo" id="filterNovo">
+            <span class="tipo-badge badge-novo">Novo</span>
+          </label>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ==================== ÁREA PRINCIPAL ==================== -->
+    <div class="produtos-main">
+
+      <!-- TOPBAR: contagem + ordenação + view -->
+      <div class="produtos-topbar">
+        <p class="produtos-count" id="produtosCount">
+          Exibindo <strong>24</strong> produtos
+        </p>
+        <div class="topbar-direita">
+          <div class="view-toggle">
+            <button class="view-btn active" id="viewGrid4" title="4 colunas">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="0" y="0" width="7" height="7" rx="1"/><rect x="9" y="0" width="7" height="7" rx="1"/>
+                <rect x="0" y="9" width="7" height="7" rx="1"/><rect x="9" y="9" width="7" height="7" rx="1"/>
+              </svg>
+            </button>
+            <button class="view-btn" id="viewGrid2" title="2 colunas">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="0" y="0" width="7" height="16" rx="1"/><rect x="9" y="0" width="7" height="16" rx="1"/>
+              </svg>
+            </button>
+          </div>
+          <div class="sort-wrap">
+            <label for="sortSelect">Ordenar</label>
+            <select id="sortSelect">
+              <option value="relevancia">Relevância</option>
+              <option value="menor">Menor Preço</option>
+              <option value="maior">Maior Preço</option>
+              <option value="vendidos">Mais Vendidos</option>
+              <option value="novos">Novidades</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID DE PRODUTOS -->
+      <div class="products" id="productsGrid"></div>
+
+      <!-- SEM RESULTADOS -->
+      <div class="sem-resultados" id="semResultados" style="display:none">
+        <div class="sem-resultados-icon">🔍</div>
+        <h3>Nenhum produto encontrado</h3>
+        <p>Tente remover alguns filtros ou buscar por outros termos.</p>
+        <button onclick="document.getElementById('limparFiltros').click()">Limpar filtros</button>
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      <div class="paginacao" id="paginacao"></div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p data-i18n="footer">© 2026 Lojas Nacional. Todos os direitos reservados.</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- VOLTAR AO TOPO -->
+<button class="back-to-top" id="backToTop">↑</button>
+
+<!-- OVERLAY MOBILE -->
+<div class="filtro-overlay" id="filtroOverlay"></div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/products.js"></script>
+</body>
+</html>

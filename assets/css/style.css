@@ -652,35 +652,65 @@ img { max-width: 100%; display: block; }
 /* ==============================
    PRODUTOS
    ============================== */
+
+/* Título da seção de produtos */
+.produtos-secao {
+  display: flex;
+  justify-content: center;
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+
 .products {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
-  padding: 16px 0 50px;
+  padding: 8px 0 50px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* Wrapper de imagem com badge */
+/* --- CARD --- */
+.product-card {
+  background: var(--secondary);
+  color: var(--text-dark);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* --- IMAGEM --- */
 .product-img-wrap {
   position: relative;
   overflow: hidden;
+  background: #f5f5f5;
+}
+
+[data-theme="dark"] .product-img-wrap {
+  background: #2a2a2a;
 }
 
 .product-img-wrap img {
   width: 100%;
-  height: 200px;
-  object-fit: contain;
-  transition: transform 0.4s ease;
-  background: #fafafa;
-  padding: 10px;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
 }
 
 .product-card:hover .product-img-wrap img {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
-/* Badge de tag */
+/* --- BADGE OFERTA/NOVO --- */
 .product-tag {
   position: absolute;
   top: 10px;
@@ -690,40 +720,169 @@ img { max-width: 100%; display: block; }
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
-  padding: 3px 10px;
+  padding: 4px 11px;
   border-radius: 99px;
   letter-spacing: 0.5px;
+  z-index: 2;
 }
 
 .tag-new {
   background: #1a7a3a;
 }
 
-/* Info do produto */
+/* --- BADGE DESCONTO % --- */
+.product-discount {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: #ff6b00;
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 9px;
+  border-radius: 6px;
+  z-index: 2;
+  letter-spacing: 0.3px;
+}
+
+/* --- BOTÃO FAVORITAR --- */
+.product-wishlist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  transition: all 0.25s ease;
+  color: #ccc;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+.product-card:hover .product-wishlist {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.product-wishlist:hover {
+  color: var(--primary);
+  transform: scale(1.15) !important;
+}
+
+.product-wishlist.active {
+  color: var(--primary);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --- INFO ÁREA --- */
 .product-info {
-  padding: 16px;
-  text-align: center;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: left;
+}
+
+/* Label de categoria */
+.product-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  opacity: 0.85;
 }
 
 .product-info h3 {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
   color: var(--text-dark);
+  line-height: 1.35;
 }
 
-.product-info p {
+/* --- AVALIAÇÃO --- */
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.stars {
+  color: #f5a623;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.rating-count {
+  font-size: 11px;
+  color: #999;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .rating-count {
+  color: #777;
+}
+
+/* --- PREÇOS --- */
+.product-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.price-old {
+  font-size: 12px;
+  color: #bbb;
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .price-old {
+  color: #666;
+}
+
+.price-new {
   color: var(--primary);
   font-weight: 900;
-  font-size: 1.3rem;
-  margin-bottom: 14px;
+  font-size: 1.35rem;
+  line-height: 1;
 }
 
+.price-installment {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: block;
+  margin-top: 2px;
+}
+
+[data-theme="dark"] .price-installment {
+  color: #777;
+}
+
+/* --- BOTÃO COMPRAR --- */
 .product-info button {
   background: var(--primary);
   color: white;
   border: none;
-  padding: 11px 28px;
+  padding: 11px 20px;
   border-radius: 99px;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
@@ -733,30 +892,19 @@ img { max-width: 100%; display: block; }
   width: 100%;
   transition: 0.3s;
   letter-spacing: 0.5px;
+  margin-top: auto;
 }
 
 .product-info button:hover {
   background: var(--primary-main);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(219, 0, 4, 0.32);
 }
 
 .product-info button.btn-added {
   background: #1a7a3a;
   transform: none;
-}
-
-.product-card {
-  background: var(--secondary);
-  color: var(--text-dark);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: none;
 }
 
 /* ==============================
@@ -921,13 +1069,14 @@ img { max-width: 100%; display: block; }
   .categoria-item span { font-size: 11px; }
 
   .products {
-    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 14px;
   }
-  .product-img-wrap img { height: 150px; }
-  .product-info h3 { font-size: 0.9rem; }
-  .product-info p { font-size: 1.1rem; }
+  .product-img-wrap img { height: 170px; }
+  .product-info h3 { font-size: 0.88rem; }
+  .price-new { font-size: 1.15rem; }
   .product-info { padding: 12px; }
+  .product-wishlist { opacity: 1; transform: scale(1); }
 }
 
 /* --- CELULAR (≤480px) --- */
@@ -958,7 +1107,9 @@ img { max-width: 100%; display: block; }
   .categoria-item .circulo { width: 66px; height: 66px; }
 
   .products { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .product-img-wrap img { height: 130px; }
+  .product-img-wrap img { height: 140px; }
+  .price-new { font-size: 1.1rem; }
+  .price-installment { font-size: 10px; }
   .product-info button { padding: 10px 14px; font-size: 11px; }
 
   /* Toast: sem nowrap para não vazar na tela */
@@ -999,7 +1150,10 @@ img { max-width: 100%; display: block; }
   .products { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .product-img-wrap img { height: 120px; }
   .product-info h3 { font-size: 0.82rem; }
-  .product-info p { font-size: 1rem; }
+  .price-new { font-size: 1rem; }
+  .price-old { font-size: 11px; }
+  .price-installment { font-size: 10px; margin-bottom: 10px; }
+  .stars { font-size: 11px; }
   .product-info { padding: 10px; }
   .product-info button { padding: 9px 12px; font-size: 10.5px; }
 }
