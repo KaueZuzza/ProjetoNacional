@@ -9,250 +9,283 @@
 </head>
 <body>
 
+<!-- LOADER DE CARREGAMENTO -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-logo">N</div>
+  <div class="loader-barra">
+    <div class="loader-progresso" id="loaderProgresso"></div>
+  </div>
+  <p class="loader-texto" data-i18n="carregando">Carregando...</p>
+</div>
+
 <!-- HEADER -->
 <header class="header" id="header">
+
+  <!-- TOPO -->
   <div class="headerTopo">
     <div class="infoHeader">
       <div class="marquee-wrap">
         <div class="marquee-track">
-          <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
-          <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span data-i18n="marquee">🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span data-i18n="marquee">🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
         </div>
       </div>
     </div>
 
     <div class="linksHeaderTopo">
       <button id="themeToggle" class="theme-btn">🌙</button>
-      <a href="http://google.com" target="_blank">Ajuda</a>
-      <span class="lang-tag">🇧🇷 PT-BR</span>
-      <a href="pages/login.html" class="link-login">Login</a>
-      <a href="pages/cadastro.html" class="link-cadastro">Cadastre-se</a>
+      <a href="http://google.com" target="_blank" data-i18n="ajuda">Ajuda</a>
+      <span class="lang-tag" id="langToggle">🇧🇷 PT-BR</span>
+      <a href="pages/login.html" class="link-login" data-i18n="login">Login</a>
+      <a href="pages/cadastro.html" class="link-cadastro" data-i18n="cadastrese">Cadastre-se</a>
     </div>
   </div>
 
+  <!-- MAIN -->
   <div class="headerMain">
     <a href="index.html" class="logo-wrap">
       <img src="assets/images/Logo_FundoTransp.png" alt="Lojas Nacional" class="logo">
     </a>
 
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Buscar produtos...">
+      <input type="text" id="searchInput" placeholder="Buscar produtos..." data-i18n-ph="searchPh">
       <button class="search-button" type="submit">
         <img src="assets/images/Icons/procurar.png" alt="Buscar">
       </button>
     </div>
 
     <nav class="nav">
-      <a href="#">Baixe o App</a>
-      <a href="index.html" class="nav-active">Home</a>
-      <a href="pages/products.html">Produtos</a>
+      <div class="app-qr-wrap">
+        <a href="#" id="appLink" data-i18n="baixeApp">Baixe o App</a>
+        <div class="app-qr-popup" id="appQrPopup">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https://www.instagram.com/lojasnacionalcapitaopoco" alt="QR Code Instagram">
+          <span data-i18n="igCaption">📸 Siga no Instagram</span>
+        </div>
+      </div>
+      <a href="index.html" class="nav-active" data-i18n="home">Home</a>
+      <a href="pages/products.html" data-i18n="produtos">Produtos</a>
       <a href="pages/cart.html" class="cart-link">
-        🛒 <span id="cartCount">(0)</span>
+        <span data-i18n="carrinho">🛒 Carrinho</span> <span id="cartCount">0</span>
       </a>
     </nav>
   </div>
+
 </header>
 
-  <div class="container">
-      
-      <!-- BANNER -->
-      <section class="banner">
-        <div class="bannerDestaque">
-          <div class="bannerConteudo">
-            <h2>Ofertas Imperdíveis</h2>
-            <button>Confira Agora</button>
-          </div>
-        </div>
-        
-        <div class="bannerMenor destaque1">
-          <h1>Novidades</h1>
-        </div>
+<!-- CONTEÚDO -->
+<div class="container">
 
-        <div class="bannerMenor destaque2">
-          <h1>Notícias</h1>
-        </div>
-      </section>
+  <!-- BANNER -->
+  <section class="banner">
+    <div class="bannerDestaque">
+      <div class="bannerConteudo">
+        <h2 data-i18n="ofertasTitle">Ofertas Imperdíveis</h2>
+        <button data-i18n="confiraBtn">Confira Agora</button>
+      </div>
+    </div>
 
-      <section class="categorias-container">
-          <h2 class="titulo-secao">Departamentos</h2>
-          
-          <div class="categorias-grid">
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconRoupaMasc.png" alt="Masculino"></div>
-                  <span>Masculino</span>
-              </div>
+    <div class="bannerMenor destaque1">
+      <h1 data-i18n="novidades">Novidades</h1>
+    </div>
 
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconRoupaFem.png" alt="Feminino"></div>
-                  <span>Feminino</span>
-              </div>
+    <div class="bannerMenor destaque2">
+      <h1 data-i18n="noticias">Notícias</h1>
+    </div>
+  </section>
 
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconRoupaInfantis.png" alt="Infantil"></div>
-                  <span>Infantil</span>
-              </div>
+  <!-- DEPARTAMENTOS -->
+  <section class="categorias-container">
+    <h2 class="titulo-secao" data-i18n="departamentos">Departamentos</h2>
 
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconPerfume.png" alt="Perfumes"></div>
-                  <span>Perfumes</span>
-              </div>
+    <div class="categorias-grid">
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconRoupaMasc.png" alt="Masculino"></div>
+        <span data-i18n="masculino">Masculino</span>
+      </div>
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconRoupaFem.png" alt="Feminino"></div>
+        <span data-i18n="feminino">Feminino</span>
+      </div>
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconRoupaInfantis.png" alt="Infantil"></div>
+        <span data-i18n="infantil">Infantil</span>
+      </div>
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconPerfume.png" alt="Perfumes"></div>
+        <span data-i18n="perfumes">Perfumes</span>
+      </div>
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconEsportes.png" alt="Esportes"></div>
+        <span data-i18n="esportes">Esportes</span>
+      </div>
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconSapatos.png" alt="Calçados"></div>
+        <span data-i18n="calcados">Calçados</span>
+      </div>
+      <div class="categoria-item">
+        <div class="circulo"><img src="assets/images/Icons/IconAcessorio.png" alt="Acessórios"></div>
+        <span data-i18n="acessorios">Acessórios</span>
+      </div>
+    </div>
+  </section>
 
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconEsportes.png" alt="Esportes"></div>
-                  <span>Esportes</span>
-              </div>
+  <!-- PRODUTOS -->
+  <main class="products">
 
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconSapatos.png" alt="Calçados"></div>
-                  <span>Calçados</span>
-              </div>
-
-              <div class="categoria-item">
-                  <div class="circulo"><img src="assets/images/Icons/IconAcessorio.png" alt="Acessórios"></div>
-                  <span>Acessórios</span>
-              </div>
-          </div>
-      </section>
-
-    <!-- PRODUTOS -->
-    <main class="products">
-
-      <div class="product-card">
-        <img src="assets/images/FotoCalcado.jpeg" alt="Produto">
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoCalcado.jpeg" alt="Produto 1">
+        <span class="product-tag" data-i18n="oferta">Oferta</span>
+      </div>
+      <div class="product-info">
         <h3>Produto 1</h3>
         <p>R$ 99,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoAcessorio.jpeg" alt="Produto">
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoAcessorio.jpeg" alt="Produto 2">
+        <span class="product-tag tag-new" data-i18n="novo">Novo</span>
+      </div>
+      <div class="product-info">
         <h3>Produto 2</h3>
         <p>R$ 149,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoInfantil.jpeg" alt="Produto">
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoInfantil.jpeg" alt="Produto 3">
+      </div>
+      <div class="product-info">
         <h3>Produto 3</h3>
         <p>R$ 79,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoPerfume.jpeg" alt="Produto">
-        <h3>Produto 1</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoPerfume.jpeg" alt="Produto 4">
+        <span class="product-tag" data-i18n="oferta">Oferta</span>
+      </div>
+      <div class="product-info">
+        <h3>Produto 4</h3>
         <p>R$ 99,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoCalcado.jpeg" alt="Produto">
-        <h3>Produto 2</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoCalcado.jpeg" alt="Produto 5">
+      </div>
+      <div class="product-info">
+        <h3>Produto 5</h3>
         <p>R$ 149,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoInfantil.jpeg" alt="Produto">
-        <h3>Produto 3</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoInfantil.jpeg" alt="Produto 6">
+        <span class="product-tag tag-new" data-i18n="novo">Novo</span>
+      </div>
+      <div class="product-info">
+        <h3>Produto 6</h3>
         <p>R$ 79,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoPerfume.jpeg" alt="Produto">
-        <h3>Produto 1</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoPerfume.jpeg" alt="Produto 7">
+      </div>
+      <div class="product-info">
+        <h3>Produto 7</h3>
         <p>R$ 99,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoCalcado.jpeg" alt="Produto">
-        <h3>Produto 2</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoCalcado.jpeg" alt="Produto 8">
+        <span class="product-tag" data-i18n="oferta">Oferta</span>
+      </div>
+      <div class="product-info">
+        <h3>Produto 8</h3>
         <p>R$ 149,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoInfantil.jpeg" alt="Produto">
-        <h3>Produto 3</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoInfantil.jpeg" alt="Produto 9">
+      </div>
+      <div class="product-info">
+        <h3>Produto 9</h3>
         <p>R$ 79,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoPerfume.jpeg" alt="Produto">
-        <h3>Produto 1</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoPerfume.jpeg" alt="Produto 10">
+        <span class="product-tag tag-new" data-i18n="novo">Novo</span>
+      </div>
+      <div class="product-info">
+        <h3>Produto 10</h3>
         <p>R$ 99,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoCalcado.jpeg" alt="Produto">
-        <h3>Produto 2</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoCalcado.jpeg" alt="Produto 11">
+      </div>
+      <div class="product-info">
+        <h3>Produto 11</h3>
         <p>R$ 149,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoInfantil.jpeg" alt="Produto">
-        <h3>Produto 3</h3>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="assets/images/FotoInfantil.jpeg" alt="Produto 12">
+        <span class="product-tag" data-i18n="oferta">Oferta</span>
+      </div>
+      <div class="product-info">
+        <h3>Produto 12</h3>
         <p>R$ 79,90</p>
-        <button>Comprar</button>
+        <button onclick="addToCart(this)" data-i18n="comprar">Comprar</button>
       </div>
+    </div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoPerfume.jpeg" alt="Produto">
-        <h3>Produto 1</h3>
-        <p>R$ 99,90</p>
-        <button>Comprar</button>
-      </div>
+  </main>
 
-      <div class="product-card">
-        <img src="assets/images/FotoCalcado.jpeg" alt="Produto">
-        <h3>Produto 2</h3>
-        <p>R$ 149,90</p>
-        <button>Comprar</button>
-      </div>
+</div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoInfantil.jpeg" alt="Produto">
-        <h3>Produto 3</h3>
-        <p>R$ 79,90</p>
-        <button>Comprar</button>
-      </div>
+<!-- FOOTER -->
+<footer class="footer">
+  <p data-i18n="footer">© 2026 Lojas Nacional. Todos os direitos reservados.</p>
+</footer>
 
-      <div class="product-card">
-        <img src="assets/images/FotoPerfume.jpeg" alt="Produto">
-        <h3>Produto 1</h3>
-        <p>R$ 99,90</p>
-        <button>Comprar</button>
-      </div>
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
 
-      <div class="product-card">
-        <img src="assets/images/FotoCalcado.jpeg" alt="Produto">
-        <h3>Produto 2</h3>
-        <p>R$ 149,90</p>
-        <button>Comprar</button>
-      </div>
+<!-- VOLTAR AO TOPO -->
+<button class="back-to-top" id="backToTop">↑</button>
 
-      <div class="product-card">
-        <img src="assets/images/FotoInfantil.jpeg" alt="Produto">
-        <h3>Produto 3</h3>
-        <p>R$ 79,90</p>
-        <button>Comprar</button>
-      </div>
-
-    </main>
-
-
-  </div>
-      
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>© 2026 Lojas Nacional</p>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
