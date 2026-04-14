@@ -1,86 +1,85 @@
 /* Importação da Fonte */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
-/* Variáveis de Cores - Centralize tudo aqui */
 :root {
-    --primary: #db0004;         /* Vermelho Nacional */
-    --primary-dark: #560000;    /* Vermelho Topo */
-    --primary-main: #b30000;    /* Vermelho Header */
+    --primary: #db0004;
+    --primary-dark: #560000;
+    --primary-main: #b30000;
     --secondary: #ffffff;
     --text-white: #ffffff;
     --text-dark: #333333;
-    --accent: #ff6600;          /* Cor de destaque para botões */
     --gray-bg: #f4f4f4;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --header-height: 135px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Reset e Configurações Globais */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+/* Variáveis para Dark Mode */
+[data-theme="dark"] {
+    --gray-bg: #121212;
+    --text-dark: #f4f4f4;
+    --secondary: #1e1e1e;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 
 body {
-    letter-spacing: 0.5px;
     background: var(--gray-bg);
     color: var(--text-dark);
-    line-height: 1.6;
+    transition: background 0.3s ease;
+    padding-top: var(--header-height); /* Evita que o conteúdo suba para baixo do header fixo */
 }
 
-/* --- HEADER --- */
+/* --- HEADER DINÂMICO --- */
 .header {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: var(--transition);
     box-shadow: var(--shadow);
 }
 
-/* TOPO (Promoções e Login) */
+/* Estados do JS */
+.header.scrolled { transform: translateY(-35px); } /* Sobe o topo de promoções */
+.header.hide { transform: translateY(-100%); }   /* Esconde tudo ao rolar pra baixo */
+
+/* TOPO */
 .headerTopo {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: var(--primary-dark);
     color: var(--text-white);
-    min-height: 35px;
+    height: 35px;
     padding: 0 5%;
-    font-size: 12px;
+    font-size: 11px;
 }
 
-.headerTopo .infoHeader {
-    display: flex;
-    gap: 20px;
+.infoHeader { overflow: hidden; flex: 1; }
+.marquee-track {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+}
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }
 
-.headerTopo .linksHeaderTopo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+.linksHeaderTopo { display: flex; align-items: center; gap: 15px; }
+.linksHeaderTopo a { color: var(--text-white); text-decoration: none; text-transform: uppercase; font-weight: 700; }
 
-.headerTopo .linksHeaderTopo a, 
-.headerTopo .linksHeaderTopo p {
-    color: var(--text-white);
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-.headerTopo button {
-    background: rgba(255, 255, 255, 0.1);
+.theme-btn {
+    background: transparent;
     border: 1px solid white;
     color: white;
     padding: 2px 8px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 10px;
-    transition: 0.3s;
-}
-
-.headerTopo button:hover {
-    background: white;
-    color: var(--primary-dark);
 }
 
 /* HEADER PRINCIPAL */
@@ -89,71 +88,63 @@ body {
     justify-content: space-between;
     align-items: center;
     background: var(--primary-main);
-    padding: 15px 5%;
+    padding: 0 5%;
     height: 100px;
+    transition: var(--transition);
 }
 
-.logo {
-    height: 60px;
-    transition: transform 0.3s;
-}
+.logo { height: 60px; transition: 0.3s; }
 
-.logo:hover {
-    transform: scale(1.05);
-}
-
-/* BARRA DE BUSCA */
+/* BUSCA */
 .search-bar {
     display: flex;
     flex: 1;
     max-width: 500px;
     margin: 0 40px;
+    height: 45px;
 }
-
 .search-bar input {
     width: 100%;
-    padding: 12px 15px;
+    padding: 0 15px;
     border-radius: 5px 0 0 5px;
     border: none;
     outline: none;
-    font-size: 14px;
 }
-
 .search-bar button {
-    padding: 0 20px;
+    padding: 0 15px;
+    background: white;
     border: none;
-    border-left: 2px solid rgb(196, 196, 196);
+    border-left: 1px solid #ddd;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
-    transition: 0.3s;
 }
+.search-bar button img { width: 18px; }
 
-.search-bar button:hover {
-    background:rgb(196, 196, 196);
-}
-
-.search-button img {
-    width: 20px; /* Ajuste o tamanho conforme necessário */
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
-
-/* NAVEGAÇÃO */
-nav a {
+/* NAV */
+.nav { display: flex; align-items: center; gap: 20px; }
+.nav a {
     color: white;
     text-decoration: none;
-    margin-left: 25px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
-    transition: 0.3s;
+}
+.nav-active { border-bottom: 2px solid white; }
+
+.cart-link {
+    background: rgba(0,0,0,0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
 }
 
-nav a:hover {
-    opacity: 0.8;
+/* CARDS DE PRODUTO (Dark Mode Adaptável) */
+.product-card {
+    background: var(--secondary);
+    color: var(--text-dark);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
 }
-
 .container {
     height: 100%;
     margin: 30px 60px;
