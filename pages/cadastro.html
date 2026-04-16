@@ -13,7 +13,12 @@
   <header class="header">
     <div class="headerTopo">
       <div class="infoHeader">
-        <p>🚚 Frete grátis para todo o Brasil | 💳 Até 12x sem juros | 🔒 Compra segura</p>
+        <div class="marquee-wrap">
+          <div class="marquee-track">
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          </div>
+        </div>
       </div>
       <div class="linksHeaderTopo">
         <a href="../index.html">Voltar à loja</a>
@@ -38,40 +43,64 @@
         <h1 class="auth-title">Crie sua conta</h1>
         <p class="auth-sub">Preencha os dados abaixo para se cadastrar.</p>
 
-        <form class="auth-form" action="#" method="POST">
+        <form class="auth-form" id="cadastroForm" action="#" method="POST" novalidate>
 
           <div class="auth-field-row">
-            <div class="auth-field">
+            <div class="auth-field" id="field-nome">
               <label for="nome">Nome</label>
               <input type="text" id="nome" name="nome" placeholder="João" required>
+              <span class="auth-error-msg" id="err-nome">Informe seu nome.</span>
             </div>
-            <div class="auth-field">
+            <div class="auth-field" id="field-sobrenome">
               <label for="sobrenome">Sobrenome</label>
               <input type="text" id="sobrenome" name="sobrenome" placeholder="Silva" required>
+              <span class="auth-error-msg" id="err-sobrenome">Informe seu sobrenome.</span>
             </div>
           </div>
 
-          <div class="auth-field">
+          <div class="auth-field" id="field-email">
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            <span class="auth-error-msg" id="err-email">Informe um e-mail válido.</span>
           </div>
 
-          <div class="auth-field">
+          <div class="auth-field" id="field-cpf">
             <label for="cpf">CPF</label>
             <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" required>
+            <span class="auth-error-msg" id="err-cpf">Informe um CPF válido.</span>
           </div>
 
-          <div class="auth-field">
+          <div class="auth-field" id="field-senha">
             <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" placeholder="Mínimo 8 caracteres" minlength="8" required>
+            <div class="auth-field-wrap">
+              <input type="password" id="senha" name="senha" placeholder="Mínimo 8 caracteres" minlength="8" required>
+              <button type="button" class="auth-toggle-pass" aria-label="Mostrar senha" onclick="togglePass('senha', this)">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="auth-strength" id="strengthMeter" style="display:none">
+              <div class="auth-strength-bars">
+                <div class="auth-strength-bar" id="bar1"></div>
+                <div class="auth-strength-bar" id="bar2"></div>
+                <div class="auth-strength-bar" id="bar3"></div>
+              </div>
+              <span class="auth-strength-label" id="strengthLabel"></span>
+            </div>
+            <span class="auth-error-msg" id="err-senha">Mínimo de 8 caracteres.</span>
           </div>
 
-          <div class="auth-field">
+          <div class="auth-field" id="field-confirm">
             <label for="senha-confirm">Confirmar senha</label>
-            <input type="password" id="senha-confirm" name="senha-confirm" placeholder="Repita a senha" required>
+            <div class="auth-field-wrap">
+              <input type="password" id="senha-confirm" name="senha-confirm" placeholder="Repita a senha" required>
+              <button type="button" class="auth-toggle-pass" aria-label="Mostrar senha" onclick="togglePass('senha-confirm', this)">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="auth-error-msg" id="err-confirm">As senhas não coincidem.</span>
           </div>
 
-          <button type="submit" class="auth-btn-primary">Criar minha conta</button>
+          <button type="submit" class="auth-btn-primary" id="btnCadastro">Criar minha conta</button>
 
         </form>
 
@@ -90,6 +119,99 @@
   <footer class="footer">
     <p>© 2026 Lojas Nacional</p>
   </footer>
+
+  <script>
+    function togglePass(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.innerHTML = isHidden
+        ? '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M1 1l22 22"/></svg>'
+        : '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+
+    // Máscara CPF
+    document.getElementById('cpf').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9)      v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      this.value = v;
+    });
+
+    // Força da senha
+    document.getElementById('senha').addEventListener('input', function() {
+      const val = this.value;
+      const meter = document.getElementById('strengthMeter');
+      if (!val) { meter.style.display = 'none'; return; }
+      meter.style.display = 'block';
+
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+      if (/\d/.test(val) && /[^A-Za-z0-9]/.test(val)) score++;
+
+      const bars   = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+      const label  = document.getElementById('strengthLabel');
+      const levels = [
+        { cls: 'weak',   text: 'Fraca' },
+        { cls: 'medium', text: 'Média' },
+        { cls: 'strong', text: 'Forte' },
+      ];
+      bars.forEach((b, i) => { b.className = 'auth-strength-bar' + (i < score ? ' ' + levels[score - 1].cls : ''); });
+      label.className = 'auth-strength-label' + (score ? ' ' + levels[score - 1].cls : '');
+      label.textContent = score ? levels[score - 1].text : '';
+    });
+
+    function validateField(inputOrId, fieldId, errId, checkFn) {
+      const input = typeof inputOrId === 'string' ? document.getElementById(inputOrId) : inputOrId;
+      const field = document.getElementById(fieldId);
+      const msg   = document.getElementById(errId);
+      if (!checkFn(input.value)) {
+        field.classList.remove('valid'); field.classList.add('error');
+        if (msg) msg.style.display = 'block';
+        return false;
+      }
+      field.classList.remove('error'); field.classList.add('valid');
+      if (msg) msg.style.display = 'none';
+      return true;
+    }
+
+    function addLiveValidation(id, fieldId, errId, checkFn) {
+      const el = document.getElementById(id);
+      el.addEventListener('blur',  () => validateField(el, fieldId, errId, checkFn));
+      el.addEventListener('input', () => {
+        if (document.getElementById(fieldId).classList.contains('error'))
+          validateField(el, fieldId, errId, checkFn);
+      });
+    }
+
+    addLiveValidation('nome',         'field-nome',      'err-nome',      v => v.trim().length > 0);
+    addLiveValidation('sobrenome',    'field-sobrenome', 'err-sobrenome', v => v.trim().length > 0);
+    addLiveValidation('email',        'field-email',     'err-email',     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()));
+    addLiveValidation('cpf',          'field-cpf',       'err-cpf',       v => v.replace(/\D/g,'').length === 11);
+    addLiveValidation('senha',        'field-senha',     'err-senha',     v => v.length >= 8);
+    addLiveValidation('senha-confirm','field-confirm',   'err-confirm',   v => v === document.getElementById('senha').value && v.length > 0);
+
+    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const checks = [
+        validateField('nome',         'field-nome',      'err-nome',      v => v.trim().length > 0),
+        validateField('sobrenome',    'field-sobrenome', 'err-sobrenome', v => v.trim().length > 0),
+        validateField('email',        'field-email',     'err-email',     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())),
+        validateField('cpf',          'field-cpf',       'err-cpf',       v => v.replace(/\D/g,'').length === 11),
+        validateField('senha',        'field-senha',     'err-senha',     v => v.length >= 8),
+        validateField('senha-confirm','field-confirm',   'err-confirm',   v => v === document.getElementById('senha').value && v.length > 0),
+      ];
+      if (checks.includes(false)) return;
+
+      const btn = document.getElementById('btnCadastro');
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="btn-spinner"></span>Aguarde...';
+      setTimeout(() => { btn.disabled = false; btn.textContent = original; }, 2000);
+    });
+  </script>
 
 </body>
 </html>

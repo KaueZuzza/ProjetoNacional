@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho - Lojas Nacional</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/cart.css">
+  <link rel="icon" href="../assets/images/favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+  <header class="header">
+    <div class="headerTopo">
+      <div class="infoHeader">
+        <div class="marquee-wrap">
+          <div class="marquee-track">
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="linksHeaderTopo">
+        <a href="../index.html">Voltar à loja</a>
+      </div>
+    </div>
+    <div class="headerMain" style="justify-content: center;">
+      <a href="../index.html">
+        <img src="../assets/images/Logo_FundoTransp.png" alt="Lojas Nacional" class="logo">
+      </a>
+    </div>
+  </header>
+
+  <div class="cart-page">
+    <div class="cart-page-inner">
+
+      <h1 class="cart-page-title">
+        🛒 Meu Carrinho
+        <span id="cartTitleCount"></span>
+      </h1>
+
+      <div class="cart-grid">
+
+        <!-- COLUNA ESQUERDA: ITENS -->
+        <div>
+          <div class="cart-card">
+            <div class="cart-card-header">Produtos no carrinho</div>
+            <div id="cartItemsList"></div>
+
+            <div class="cart-empty" id="cartEmpty" style="display:none">
+              <div class="cart-empty-icon">🛒</div>
+              <h3>Seu carrinho está vazio</h3>
+              <p>Adicione produtos incríveis e aproveite nossas ofertas!</p>
+              <a href="products.html" class="btn-shop">Ver produtos</a>
+            </div>
+
+            <div class="cart-footer" id="cartFooter" style="display:none">
+              <a href="products.html" class="btn-continue">← Continuar comprando</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUNA DIREITA: RESUMO -->
+        <div class="cart-summary">
+          <div class="cart-card">
+            <div class="cart-card-header">Resumo do pedido</div>
+
+            <div class="coupon-row">
+              <input type="text" class="coupon-input" id="couponInput" placeholder="CUPOM DE DESCONTO" maxlength="20">
+              <button class="btn-coupon" id="btnCoupon">Aplicar</button>
+            </div>
+            <div class="coupon-msg" id="couponMsg"></div>
+
+            <div class="summary-rows">
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="sumSubtotal">R$ 0,00</span>
+              </div>
+              <div class="summary-row" id="sumDiscountRow" style="display:none">
+                <span>Desconto cupom</span>
+                <span id="sumDiscount" style="color:#22c55e;font-weight:700"></span>
+              </div>
+              <div class="summary-row">
+                <span>Frete</span>
+                <span id="sumFrete">R$ 19,90</span>
+              </div>
+              <div class="summary-row total">
+                <span>Total</span>
+                <span id="sumTotal">R$ 0,00</span>
+              </div>
+            </div>
+
+            <div class="summary-installment" id="sumInstallment"></div>
+
+            <a href="checkout.html" class="btn-checkout" id="btnCheckout">Finalizar Compra →</a>
+
+            <div class="summary-seals">
+              <div class="seal-item">🔒 Compra Segura</div>
+              <div class="seal-item">🔄 Troca Grátis</div>
+              <div class="seal-item">🚚 Frete Grátis acima de R$199</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <footer class="footer"><p>© 2026 Lojas Nacional</p></footer>
+
+  <script src="../assets/js/cart.js"></script>
+  <script>
+    const CUPONS = { 'NACIONAL10': 0.10, 'DESCONTO15': 0.15 };
+    const fmt = v => v.toFixed(2).replace('.', ',');
+    let discountPct = 0;
+
+    function renderCart() {
+      const cart   = CartStore.get();
+      const list   = document.getElementById('cartItemsList');
+      const empty  = document.getElementById('cartEmpty');
+      const footer = document.getElementById('cartFooter');
+      const btnCO  = document.getElementById('btnCheckout');
+      const total  = cart.reduce((s, i) => s + i.qty, 0);
+
+      document.getElementById('cartTitleCount').textContent =
+        total > 0 ? `(${total} ${total === 1 ? 'item' : 'itens'})` : '';
+
+      if (cart.length === 0) {
+        list.innerHTML = '';
+        empty.style.display  = 'block';
+        footer.style.display = 'none';
+        btnCO.style.pointerEvents = 'none';
+        btnCO.style.opacity = '0.4';
+      } else {
+        empty.style.display  = 'none';
+        footer.style.display = 'block';
+        btnCO.style.pointerEvents = '';
+        btnCO.style.opacity = '1';
+
+        list.innerHTML = cart.map(item => {
+          const sub    = item.price * item.qty;
+          const oldTag = item.oldPrice
+            ? `<span class="cart-item-old">R$ ${fmt(item.oldPrice)}</span>` : '';
+          const img    = '../' + (item.img || 'assets/images/FotoCalcado.jpeg');
+
+          return `
+            <div class="cart-item">
+              <img class="cart-item-img" src="${img}" alt="${item.name}"
+                   onerror="this.src='../assets/images/FotoCalcado.jpeg'">
+              <div class="cart-item-info">
+                <div class="cart-item-cat">${item.cat || ''}</div>
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-prices">
+                  ${oldTag}
+                  <span class="cart-item-price">R$ ${fmt(item.price)}</span>
+                </div>
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+                  <input class="qty-input" type="number" value="${item.qty}" min="1" max="99"
+                         onchange="setQty(${item.id},this.value)">
+                  <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+                </div>
+              </div>
+              <div class="cart-item-right">
+                <span class="cart-item-subtotal">R$ ${fmt(sub)}</span>
+                <button class="cart-item-remove" onclick="removeItem(${item.id})" title="Remover">🗑</button>
+              </div>
+            </div>`;
+        }).join('');
+      }
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const cart     = CartStore.get();
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const discount = subtotal * discountPct;
+      const frete    = (subtotal - discount) >= 199 ? 0 : 19.90;
+      const total    = subtotal - discount + frete;
+
+      document.getElementById('sumSubtotal').textContent = `R$ ${fmt(subtotal)}`;
+
+      const discRow = document.getElementById('sumDiscountRow');
+      if (discountPct > 0) {
+        discRow.style.display = 'flex';
+        document.getElementById('sumDiscount').textContent = `−R$ ${fmt(discount)}`;
+      } else {
+        discRow.style.display = 'none';
+      }
+
+      const freteEl = document.getElementById('sumFrete');
+      if (frete === 0) {
+        freteEl.textContent = 'Grátis';
+        freteEl.style.color = '#22c55e';
+        freteEl.style.fontWeight = '700';
+      } else {
+        freteEl.textContent = `R$ ${fmt(frete)}`;
+        freteEl.style.color = '';
+        freteEl.style.fontWeight = '';
+      }
+
+      document.getElementById('sumTotal').textContent = `R$ ${fmt(total)}`;
+      const nInst = Math.min(12, Math.max(1, Math.ceil(total / 100)));
+      document.getElementById('sumInstallment').textContent =
+        total > 0 ? `ou ${nInst}x de R$ ${fmt(total / nInst)} sem juros` : '';
+    }
+
+    function changeQty(id, delta) { CartStore.updateQty(id, delta); renderCart(); }
+    function setQty(id, val)      { CartStore.setQty(id, val);      renderCart(); }
+
+    function removeItem(id) {
+      CartStore.remove(id);
+      renderCart();
+      showToast('Item removido do carrinho');
+    }
+
+    document.getElementById('btnCoupon').addEventListener('click', () => {
+      const code = document.getElementById('couponInput').value.trim().toUpperCase();
+      const msg  = document.getElementById('couponMsg');
+      if (CUPONS[code]) {
+        discountPct = CUPONS[code];
+        msg.className = 'coupon-msg ok';
+        msg.textContent = `✓ Cupom aplicado! ${(discountPct * 100).toFixed(0)}% de desconto`;
+      } else {
+        discountPct = 0;
+        msg.className = 'coupon-msg err';
+        msg.textContent = '✗ Cupom inválido ou expirado';
+      }
+      updateSummary();
+    });
+
+    document.getElementById('couponInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btnCoupon').click();
+    });
+
+    document.getElementById('btnCheckout').addEventListener('click', () => {
+      sessionStorage.setItem('ln_discount', discountPct);
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>

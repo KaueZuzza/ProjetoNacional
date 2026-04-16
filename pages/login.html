@@ -13,7 +13,12 @@
   <header class="header">
     <div class="headerTopo">
       <div class="infoHeader">
-        <p>🚚 Frete grátis para todo o Brasil | 💳 Até 12x sem juros | 🔒 Compra segura</p>
+        <div class="marquee-wrap">
+          <div class="marquee-track">
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          </div>
+        </div>
       </div>
       <div class="linksHeaderTopo">
         <a href="../index.html">Voltar à loja</a>
@@ -38,17 +43,24 @@
         <h1 class="auth-title">Bem-vindo de volta!</h1>
         <p class="auth-sub">Acesse sua conta para continuar comprando.</p>
 
-        <form class="auth-form" action="#" method="POST">
-          <div class="auth-field">
+        <form class="auth-form" id="loginForm" action="#" method="POST" novalidate>
+          <div class="auth-field" id="field-email">
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            <span class="auth-error-msg" id="err-email">Informe um e-mail válido.</span>
           </div>
-          <div class="auth-field">
+          <div class="auth-field" id="field-senha">
             <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+            <div class="auth-field-wrap">
+              <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+              <button type="button" class="auth-toggle-pass" aria-label="Mostrar senha" onclick="togglePass('senha', this)">
+                <svg id="eye-senha" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="auth-error-msg" id="err-senha">Informe sua senha.</span>
           </div>
           <a href="#" class="auth-forgot">Esqueci minha senha</a>
-          <button type="submit" class="auth-btn-primary">Entrar na minha conta</button>
+          <button type="submit" class="auth-btn-primary" id="btnLogin">Entrar na minha conta</button>
         </form>
 
         <div class="auth-divider">
@@ -76,6 +88,68 @@
   <footer class="footer">
     <p>© 2026 Lojas Nacional</p>
   </footer>
+
+  <script>
+    function togglePass(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.innerHTML = isHidden
+        ? '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M1 1l22 22"/></svg>'
+        : '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+
+    function validateField(input, fieldId, errId, checkFn) {
+      const field = document.getElementById(fieldId);
+      const msg   = document.getElementById(errId);
+      if (!checkFn(input.value)) {
+        field.classList.remove('valid');
+        field.classList.add('error');
+        if (msg) msg.style.display = 'block';
+        return false;
+      } else {
+        field.classList.remove('error');
+        field.classList.add('valid');
+        if (msg) msg.style.display = 'none';
+        return true;
+      }
+    }
+
+    const emailInput = document.getElementById('email');
+    const senhaInput = document.getElementById('senha');
+
+    emailInput.addEventListener('blur', () => {
+      validateField(emailInput, 'field-email', 'err-email',
+        v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()));
+    });
+    emailInput.addEventListener('input', () => {
+      if (document.getElementById('field-email').classList.contains('error')) {
+        validateField(emailInput, 'field-email', 'err-email',
+          v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()));
+      }
+    });
+
+    senhaInput.addEventListener('blur', () => {
+      validateField(senhaInput, 'field-senha', 'err-senha', v => v.length > 0);
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const okEmail = validateField(emailInput, 'field-email', 'err-email',
+        v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()));
+      const okSenha = validateField(senhaInput, 'field-senha', 'err-senha', v => v.length > 0);
+      if (!okEmail || !okSenha) return;
+
+      const btn = document.getElementById('btnLogin');
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="btn-spinner"></span>Aguarde...';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = original;
+      }, 2000);
+    });
+  </script>
 
 </body>
 </html>

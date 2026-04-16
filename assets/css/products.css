@@ -115,7 +115,7 @@
 .hero-stat span {
   font-size: 10px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 1);
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -134,9 +134,8 @@
   background: var(--secondary);
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   padding: 0 5%;
-  position: sticky;
-  top: var(--header-height);
-  z-index: 500;
+  position: relative;
+  z-index: 1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -278,7 +277,7 @@
   box-shadow: var(--shadow);
   padding: 20px;
   position: sticky;
-  top: calc(var(--header-height) + 52px);
+  top: calc(var(--header-height) + 16px);
   transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
 }
 

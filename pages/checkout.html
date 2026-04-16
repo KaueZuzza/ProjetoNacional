@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Lojas Nacional</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/cart.css">
+  <link rel="icon" href="../assets/images/favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+  <header class="header">
+    <div class="headerTopo">
+      <div class="infoHeader">
+        <div class="marquee-wrap">
+          <div class="marquee-track">
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="linksHeaderTopo">
+        <a href="cart.html">← Voltar ao carrinho</a>
+      </div>
+    </div>
+    <div class="headerMain" style="justify-content: center;">
+      <a href="../index.html">
+        <img src="../assets/images/Logo_FundoTransp.png" alt="Lojas Nacional" class="logo">
+      </a>
+    </div>
+  </header>
+
+  <div class="checkout-page">
+    <div class="checkout-page-inner">
+
+      <!-- STEPS -->
+      <div class="checkout-steps">
+        <div class="step active" id="step1">
+          <div class="step-num">1</div>
+          <span class="step-label">Identificação</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step2">
+          <div class="step-num">2</div>
+          <span class="step-label">Entrega</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step3">
+          <div class="step-num">3</div>
+          <span class="step-label">Pagamento</span>
+        </div>
+      </div>
+
+      <!-- TELA DE SUCESSO (oculta) -->
+      <div class="success-screen" id="successScreen">
+        <span class="success-icon">✅</span>
+        <h2>Pedido confirmado!</h2>
+        <p>Obrigado pela sua compra. Você receberá um e-mail de confirmação em breve.</p>
+        <div class="success-order" id="successOrderNum"></div>
+        <a href="../index.html" class="btn-shop">Voltar à loja</a>
+      </div>
+
+      <!-- GRID CHECKOUT -->
+      <div class="checkout-grid" id="checkoutGrid">
+
+        <!-- FORMULÁRIO -->
+        <div>
+
+          <!-- SEÇÃO 1: IDENTIFICAÇÃO -->
+          <div class="checkout-section">
+            <div class="checkout-section-header">
+              <span class="checkout-section-icon">👤</span>
+              Identificação
+            </div>
+            <div class="checkout-section-body">
+              <div class="co-grid co-grid-2">
+                <div class="co-field">
+                  <label for="coNome">Nome *</label>
+                  <input type="text" id="coNome" placeholder="João" required>
+                  <span class="field-error">Informe seu nome</span>
+                </div>
+                <div class="co-field">
+                  <label for="coSobrenome">Sobrenome *</label>
+                  <input type="text" id="coSobrenome" placeholder="Silva" required>
+                  <span class="field-error">Informe seu sobrenome</span>
+                </div>
+              </div>
+              <div class="co-grid co-grid-2" style="margin-top:14px">
+                <div class="co-field">
+                  <label for="coEmail">E-mail *</label>
+                  <input type="email" id="coEmail" placeholder="seu@email.com" required>
+                  <span class="field-error">E-mail inválido</span>
+                </div>
+                <div class="co-field">
+                  <label for="coTel">Telefone *</label>
+                  <input type="text" id="coTel" placeholder="(00) 90000-0000" maxlength="15" required>
+                  <span class="field-error">Telefone inválido</span>
+                </div>
+              </div>
+              <div class="co-grid" style="margin-top:14px">
+                <div class="co-field">
+                  <label for="coCpf">CPF *</label>
+                  <input type="text" id="coCpf" placeholder="000.000.000-00" maxlength="14" required>
+                  <span class="field-error">CPF inválido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 2: ENDEREÇO -->
+          <div class="checkout-section">
+            <div class="checkout-section-header">
+              <span class="checkout-section-icon">📦</span>
+              Endereço de entrega
+            </div>
+            <div class="checkout-section-body">
+              <div class="co-grid co-grid-cep">
+                <div class="co-field">
+                  <label for="coCep">CEP *</label>
+                  <input type="text" id="coCep" placeholder="00000-000" maxlength="9" required>
+                  <span class="field-error">CEP inválido</span>
+                </div>
+                <button class="btn-cep" id="btnBuscarCep" type="button">Buscar</button>
+              </div>
+              <div class="co-grid" style="margin-top:14px">
+                <div class="co-field">
+                  <label for="coRua">Rua / Logradouro *</label>
+                  <input type="text" id="coRua" placeholder="Rua das Flores" required>
+                  <span class="field-error">Informe a rua</span>
+                </div>
+              </div>
+              <div class="co-grid co-grid-3" style="margin-top:14px">
+                <div class="co-field">
+                  <label for="coNum">Número *</label>
+                  <input type="text" id="coNum" placeholder="123" required>
+                  <span class="field-error">Informe o número</span>
+                </div>
+                <div class="co-field">
+                  <label for="coComp">Complemento</label>
+                  <input type="text" id="coComp" placeholder="Apto 10">
+                </div>
+                <div class="co-field">
+                  <label for="coBairro">Bairro *</label>
+                  <input type="text" id="coBairro" placeholder="Centro" required>
+                  <span class="field-error">Informe o bairro</span>
+                </div>
+              </div>
+              <div class="co-grid co-grid-2" style="margin-top:14px">
+                <div class="co-field">
+                  <label for="coCidade">Cidade *</label>
+                  <input type="text" id="coCidade" placeholder="São Paulo" required>
+                  <span class="field-error">Informe a cidade</span>
+                </div>
+                <div class="co-field">
+                  <label for="coEstado">Estado *</label>
+                  <select id="coEstado" required>
+                    <option value="">Selecione</option>
+                    <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+                    <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+                    <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+                    <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+                    <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+                    <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+                    <option>SP</option><option>SE</option><option>TO</option>
+                  </select>
+                  <span class="field-error">Selecione o estado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 3: PAGAMENTO -->
+          <div class="checkout-section">
+            <div class="checkout-section-header">
+              <span class="checkout-section-icon">💳</span>
+              Forma de pagamento
+            </div>
+            <div class="checkout-section-body">
+              <div class="pay-options">
+
+                <!-- CARTÃO -->
+                <div class="pay-option selected" id="payCard" onclick="selectPay('card')">
+                  <div class="pay-option-header">
+                    <div class="pay-option-radio"></div>
+                    <span class="pay-option-icon">💳</span>
+                    <div class="pay-option-info">
+                      <div class="pay-option-name">Cartão de Crédito</div>
+                      <div class="pay-option-desc">Até 12x sem juros</div>
+                    </div>
+                  </div>
+                  <div class="card-fields active" id="cardFields">
+                    <div class="co-grid">
+                      <div class="co-field">
+                        <label for="cardNum">Número do cartão</label>
+                        <input type="text" id="cardNum" placeholder="0000 0000 0000 0000" maxlength="19">
+                      </div>
+                    </div>
+                    <div class="co-grid" style="margin-top:10px">
+                      <div class="co-field">
+                        <label for="cardName">Nome no cartão</label>
+                        <input type="text" id="cardName" placeholder="JOÃO SILVA">
+                      </div>
+                    </div>
+                    <div class="co-grid co-grid-3" style="margin-top:10px">
+                      <div class="co-field">
+                        <label for="cardVal">Validade</label>
+                        <input type="text" id="cardVal" placeholder="MM/AA" maxlength="5">
+                      </div>
+                      <div class="co-field">
+                        <label for="cardCvv">CVV</label>
+                        <input type="text" id="cardCvv" placeholder="000" maxlength="4">
+                      </div>
+                      <div class="co-field">
+                        <label for="cardInst">Parcelas</label>
+                        <select id="cardInst"></select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- PIX -->
+                <div class="pay-option" id="payPix" onclick="selectPay('pix')">
+                  <div class="pay-option-header">
+                    <div class="pay-option-radio"></div>
+                    <span class="pay-option-icon">🔵</span>
+                    <div class="pay-option-info">
+                      <div class="pay-option-name">PIX</div>
+                      <div class="pay-option-desc">Aprovação imediata • 5% de desconto</div>
+                    </div>
+                  </div>
+                  <div class="pix-box" id="pixBox">
+                    <div class="pix-qr">📱</div>
+                    <div class="pix-key-row">
+                      <span class="pix-key" id="pixKeyText">loja@lojasnacional.com.br</span>
+                      <button class="btn-copy" onclick="copyPix(event)">Copiar</button>
+                    </div>
+                    <p class="pix-timer">Válido por <strong id="pixTimer">15:00</strong></p>
+                  </div>
+                </div>
+
+                <!-- BOLETO -->
+                <div class="pay-option" id="payBoleto" onclick="selectPay('boleto')">
+                  <div class="pay-option-header">
+                    <div class="pay-option-radio"></div>
+                    <span class="pay-option-icon">📄</span>
+                    <div class="pay-option-info">
+                      <div class="pay-option-name">Boleto Bancário</div>
+                      <div class="pay-option-desc">Vence em 3 dias úteis</div>
+                    </div>
+                  </div>
+                  <div class="boleto-box" id="boletoBox">
+                    <p>Após confirmar o pedido, o boleto será gerado e você terá 3 dias úteis para pagamento.</p>
+                    <button class="btn-boleto" type="button">📄 Gerar Boleto (após confirmar)</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RESUMO FIXO -->
+        <div class="checkout-summary">
+          <div class="cart-card">
+            <div class="cart-card-header">Resumo do pedido</div>
+            <div class="summary-mini-list" id="miniList"></div>
+            <div class="summary-rows">
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="coSubtotal">R$ 0,00</span>
+              </div>
+              <div class="summary-row" id="coDiscRow" style="display:none">
+                <span>Desconto</span>
+                <span id="coDisc" style="color:#22c55e;font-weight:700"></span>
+              </div>
+              <div class="summary-row">
+                <span>Frete</span>
+                <span id="coFrete">R$ 19,90</span>
+              </div>
+              <div class="summary-row total">
+                <span>Total</span>
+                <span id="coTotal">R$ 0,00</span>
+              </div>
+            </div>
+            <div class="summary-installment" id="coInst"></div>
+
+            <button class="btn-confirm" id="btnConfirm" onclick="confirmOrder()">
+              <span class="btn-spinner" id="confirmSpinner"></span>
+              Confirmar Pedido
+            </button>
+
+            <div class="summary-seals">
+              <div class="seal-item">🔒 Compra Segura</div>
+              <div class="seal-item">🔄 Troca em 30 dias</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <footer class="footer"><p>© 2026 Lojas Nacional</p></footer>
+
+  <script src="../assets/js/cart.js"></script>
+  <script>
+    const fmt = v => v.toFixed(2).replace('.', ',');
+    const discountPct = parseFloat(sessionStorage.getItem('ln_discount') || 0);
+    let payMethod = 'card';
+    let pixInterval;
+
+    /* ── RESUMO ── */
+    function renderSummary() {
+      const cart      = CartStore.get();
+      const subtotal  = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const pixDisc   = payMethod === 'pix' ? subtotal * 0.05 : 0;
+      const discount  = subtotal * discountPct + pixDisc;
+      const frete     = (subtotal - discount) >= 199 ? 0 : 19.90;
+      const total     = subtotal - discount + frete;
+
+      document.getElementById('coSubtotal').textContent = `R$ ${fmt(subtotal)}`;
+
+      const discRow = document.getElementById('coDiscRow');
+      if (discount > 0) {
+        discRow.style.display = 'flex';
+        document.getElementById('coDisc').textContent = `−R$ ${fmt(discount)}`;
+      } else {
+        discRow.style.display = 'none';
+      }
+
+      const freteEl = document.getElementById('coFrete');
+      if (frete === 0) {
+        freteEl.textContent = 'Grátis';
+        freteEl.style.color = '#22c55e';
+        freteEl.style.fontWeight = '700';
+      } else {
+        freteEl.textContent = `R$ ${fmt(frete)}`;
+        freteEl.style.color = '';
+        freteEl.style.fontWeight = '';
+      }
+
+      document.getElementById('coTotal').textContent = `R$ ${fmt(total)}`;
+      const nInst = Math.min(12, Math.max(1, Math.ceil(total / 100)));
+      document.getElementById('coInst').textContent =
+        total > 0 ? `ou ${nInst}x de R$ ${fmt(total / nInst)} sem juros` : '';
+
+      /* parcelas no select do cartão */
+      const selInst = document.getElementById('cardInst');
+      selInst.innerHTML = '';
+      for (let i = 1; i <= nInst; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `${i}x de R$ ${fmt(total / i)} sem juros`;
+        selInst.appendChild(opt);
+      }
+
+      /* mini lista */
+      document.getElementById('miniList').innerHTML = cart.map(item => {
+        const img = '../' + (item.img || 'assets/images/FotoCalcado.jpeg');
+        return `
+          <div class="mini-item">
+            <img class="mini-item-img" src="${img}" alt="${item.name}"
+                 onerror="this.src='../assets/images/FotoCalcado.jpeg'">
+            <div class="mini-item-info">
+              <div class="mini-item-name">${item.name}</div>
+              <div class="mini-item-qty">Qtd: ${item.qty}</div>
+            </div>
+            <span class="mini-item-price">R$ ${fmt(item.price * item.qty)}</span>
+          </div>`;
+      }).join('');
+    }
+
+    /* ── PAGAMENTO ── */
+    function selectPay(method) {
+      payMethod = method;
+
+      document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
+      document.querySelectorAll('.card-fields, .pix-box, .boleto-box').forEach(el => el.classList.remove('active'));
+
+      clearInterval(pixInterval);
+
+      if (method === 'card') {
+        document.getElementById('payCard').classList.add('selected');
+        document.getElementById('cardFields').classList.add('active');
+      } else if (method === 'pix') {
+        document.getElementById('payPix').classList.add('selected');
+        document.getElementById('pixBox').classList.add('active');
+        startPixTimer();
+      } else if (method === 'boleto') {
+        document.getElementById('payBoleto').classList.add('selected');
+        document.getElementById('boletoBox').classList.add('active');
+      }
+
+      renderSummary();
+    }
+
+    function startPixTimer() {
+      let secs = 900;
+      const el = document.getElementById('pixTimer');
+      function tick() {
+        const m = String(Math.floor(secs / 60)).padStart(2, '0');
+        const s = String(secs % 60).padStart(2, '0');
+        el.textContent = `${m}:${s}`;
+        if (secs <= 0) { clearInterval(pixInterval); el.textContent = 'Expirado'; }
+        secs--;
+      }
+      tick();
+      pixInterval = setInterval(tick, 1000);
+    }
+
+    function copyPix(e) {
+      e.stopPropagation();
+      const key = document.getElementById('pixKeyText').textContent;
+      navigator.clipboard.writeText(key).then(() => showToast('Chave PIX copiada!'));
+    }
+
+    /* ── MÁSCARAS ── */
+    document.getElementById('coCpf').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9)      v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      this.value = v;
+    });
+
+    document.getElementById('coTel').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10)     v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+      this.value = v;
+    });
+
+    document.getElementById('coCep').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+      this.value = v;
+    });
+
+    document.getElementById('cardNum').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 16);
+      v = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+      this.value = v;
+    });
+
+    document.getElementById('cardVal').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 4);
+      if (v.length > 2) v = v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
+      this.value = v;
+    });
+
+    /* ── BUSCA CEP ── */
+    document.getElementById('btnBuscarCep').addEventListener('click', buscarCep);
+    document.getElementById('coCep').addEventListener('keydown', e => {
+      if (e.key === 'Enter') buscarCep();
+    });
+
+    function buscarCep() {
+      const cep = document.getElementById('coCep').value.replace(/\D/g, '');
+      if (cep.length !== 8) { showToast('CEP inválido'); return; }
+      const btn = document.getElementById('btnBuscarCep');
+      btn.textContent = '...';
+      btn.disabled = true;
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.erro) { showToast('CEP não encontrado'); return; }
+          document.getElementById('coRua').value    = data.logradouro || '';
+          document.getElementById('coBairro').value = data.bairro     || '';
+          document.getElementById('coCidade').value = data.localidade || '';
+          document.getElementById('coEstado').value = data.uf         || '';
+          document.getElementById('coNum').focus();
+          showToast('Endereço preenchido automaticamente!');
+        })
+        .catch(() => showToast('Erro ao buscar CEP. Tente novamente.'))
+        .finally(() => { btn.textContent = 'Buscar'; btn.disabled = false; });
+    }
+
+    /* ── VALIDAÇÃO ── */
+    function validateField(input, checkFn) {
+      const wrap = input.closest('.co-field');
+      if (!wrap) return checkFn(input.value);
+      const ok = checkFn(input.value);
+      wrap.classList.toggle('has-error', !ok);
+      input.classList.toggle('error', !ok);
+      input.classList.toggle('valid', ok);
+      return ok;
+    }
+
+    const required = v => v.trim().length > 0;
+    const emailRe  = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    const cpfRe    = v => v.replace(/\D/g, '').length === 11;
+    const telRe    = v => v.replace(/\D/g, '').length >= 10;
+    const cepRe    = v => v.replace(/\D/g, '').length === 8;
+
+    /* ── CONFIRMAR PEDIDO ── */
+    function confirmOrder() {
+      const fields = [
+        [document.getElementById('coNome'),      required],
+        [document.getElementById('coSobrenome'), required],
+        [document.getElementById('coEmail'),     emailRe],
+        [document.getElementById('coTel'),       telRe],
+        [document.getElementById('coCpf'),       cpfRe],
+        [document.getElementById('coCep'),       cepRe],
+        [document.getElementById('coRua'),       required],
+        [document.getElementById('coNum'),       required],
+        [document.getElementById('coBairro'),    required],
+        [document.getElementById('coCidade'),    required],
+        [document.getElementById('coEstado'),    required],
+      ];
+
+      const ok = fields.map(([el, fn]) => validateField(el, fn)).every(Boolean);
+      if (!ok) {
+        showToast('Preencha todos os campos obrigatórios');
+        document.querySelector('.co-field.has-error input, .co-field.has-error select')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const btn     = document.getElementById('btnConfirm');
+      const spinner = document.getElementById('confirmSpinner');
+      btn.disabled = true;
+      spinner.style.display = 'block';
+
+      setTimeout(() => {
+        CartStore.clear();
+        sessionStorage.removeItem('ln_discount');
+        clearInterval(pixInterval);
+
+        document.getElementById('checkoutGrid').style.display = 'none';
+        document.querySelectorAll('.checkout-steps, .checkout-page .cart-page-title').forEach(el => el.style.display = 'none');
+
+        const num = '#' + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById('successOrderNum').textContent = `Número do pedido: ${num}`;
+        document.getElementById('successScreen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 2200);
+    }
+
+    /* ── STEPS VISUAIS AO ROLAR ── */
+    function updateSteps() {
+      const sec1 = document.querySelector('.checkout-section:nth-child(1)');
+      const sec2 = document.querySelector('.checkout-section:nth-child(2)');
+      const sec3 = document.querySelector('.checkout-section:nth-child(3)');
+      const vp   = window.innerHeight;
+      const active = el => el && el.getBoundingClientRect().top < vp * 0.6;
+
+      document.getElementById('step1').className = 'step active';
+      document.getElementById('step2').className = 'step' + (active(sec2) ? ' active' : '');
+      document.getElementById('step3').className = 'step' + (active(sec3) ? ' active' : '');
+      if (active(sec2)) document.getElementById('step1').className = 'step done';
+      if (active(sec3)) document.getElementById('step2').className = 'step done';
+    }
+
+    window.addEventListener('scroll', updateSteps);
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    renderSummary();
+    selectPay('card');
+  </script>
+
+</body>
+</html>

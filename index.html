@@ -77,11 +77,50 @@
 
   <!-- BANNER -->
   <section class="banner">
-    <div class="bannerDestaque">
+    <div class="bannerDestaque" id="bannerSlider">
+
+      <!-- Slides -->
+      <div class="slider-slides" id="sliderTrack">
+        <div class="slider-slide">
+          <div class="slide-bg" style="background-image:url('assets/images/FotoDestaquePrincipal.jpeg')"></div>
+          <img src="assets/images/FotoDestaquePrincipal.jpeg" alt="Ofertas Imperdíveis">
+        </div>
+        <div class="slider-slide">
+          <div class="slide-bg" style="background-image:url('assets/images/FotoDestaquePrincipal 2.jpeg')"></div>
+          <img src="assets/images/FotoDestaquePrincipal 2.jpeg" alt="Ofertas Imperdíveis">
+        </div>
+        <div class="slider-slide">
+          <div class="slide-bg" style="background-image:url('assets/images/FotoDestaquePrincipal 3.jpeg')"></div>
+          <img src="assets/images/FotoDestaquePrincipal 3.jpeg" alt="Ofertas Imperdíveis">
+        </div>
+        <div class="slider-slide">
+          <div class="slide-bg" style="background-image:url('assets/images/FotoDestaquePrincipal 4 (1).jpeg')"></div>
+          <img src="assets/images/FotoDestaquePrincipal 4 (1).jpeg" alt="Ofertas Imperdíveis">
+        </div>
+      </div>
+
+      <!-- Conteúdo -->
       <div class="bannerConteudo">
         <h2 data-i18n="ofertasTitle">Ofertas Imperdíveis</h2>
         <button data-i18n="confiraBtn">Confira Agora</button>
       </div>
+
+      <!-- Setas -->
+      <button class="slider-arrow prev" id="sliderPrev" aria-label="Anterior">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="slider-arrow next" id="sliderNext" aria-label="Próximo">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+
+      <!-- Bolinhas -->
+      <div class="slider-dots" id="sliderDots">
+        <button class="slider-dot active" data-index="0"></button>
+        <button class="slider-dot" data-index="1"></button>
+        <button class="slider-dot" data-index="2"></button>
+        <button class="slider-dot" data-index="3"></button>
+      </div>
+
     </div>
 
     <div class="bannerMenor destaque1">
@@ -426,6 +465,57 @@
 <!-- VOLTAR AO TOPO -->
 <button class="back-to-top" id="backToTop">↑</button>
 
+<script src="assets/js/cart.js"></script>
 <script src="assets/js/main.js"></script>
+
+<script>
+  (function() {
+    const track  = document.getElementById('sliderTrack');
+    const dots   = document.querySelectorAll('.slider-dot');
+    const total  = 4;
+    let current  = 0;
+    let timer;
+
+    function goTo(idx) {
+      current = (idx + total) % total;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startAuto() {
+      timer = setInterval(next, 5000);
+    }
+
+    function resetAuto() {
+      clearInterval(timer);
+      startAuto();
+    }
+
+    document.getElementById('sliderNext').addEventListener('click', () => { next(); resetAuto(); });
+    document.getElementById('sliderPrev').addEventListener('click', () => { prev(); resetAuto(); });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => { goTo(+dot.dataset.index); resetAuto(); });
+    });
+
+    // Pausa ao hover
+    const slider = document.getElementById('bannerSlider');
+    slider.addEventListener('mouseenter', () => clearInterval(timer));
+    slider.addEventListener('mouseleave', startAuto);
+
+    // Swipe no mobile
+    let startX = 0;
+    slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    slider.addEventListener('touchend',   e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) { diff > 0 ? next() : prev(); resetAuto(); }
+    });
+
+    startAuto();
+  })();
+</script>
 </body>
 </html>

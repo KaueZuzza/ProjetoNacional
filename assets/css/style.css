@@ -448,7 +448,7 @@ img { max-width: 100%; display: block; }
 .banner {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: 190px 190px;
+  grid-template-rows: 260px 260px;
   gap: 15px;
   margin-bottom: 20px;
 }
@@ -456,16 +456,111 @@ img { max-width: 100%; display: block; }
 .bannerDestaque {
   grid-row: 1 / span 2;
   position: relative;
-  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-                    url('../images/FotoDestaquePrincipal.jpeg');
-  background-size: cover;
-  background-position: center;
   border-radius: var(--radius);
   display: flex;
   justify-content: center;
   padding: 30px;
   overflow: hidden;
   transition: 0.3s;
+}
+
+/* ── SLIDER ── */
+.slider-slides {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slider-slide {
+  min-width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+
+/* Fundo desfocado — preenche as bordas sem preto */
+.slide-bg {
+  position: absolute;
+  inset: -10px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.55);
+  transform: scale(1.08);
+}
+
+/* Imagem principal — sem corte */
+.slider-slide img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.slider-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22));
+  pointer-events: none;
+}
+
+/* Conteúdo acima das slides */
+.bannerConteudo { z-index: 2; }
+
+/* Setas */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(255,255,255,0.18);
+  border: none;
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  backdrop-filter: blur(4px);
+}
+
+.slider-arrow:hover { background: rgba(255,255,255,0.35); }
+.slider-arrow.prev  { left: 14px; }
+.slider-arrow.next  { right: 14px; }
+
+/* Bolinhas */
+.slider-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  padding: 0;
+}
+
+.slider-dot.active {
+  background: white;
+  transform: scale(1.35);
 }
 
 .bannerDestaque:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
@@ -1014,7 +1109,7 @@ img { max-width: 100%; display: block; }
     grid-template-columns: 1fr;
     grid-template-rows: auto;
   }
-  .bannerDestaque { grid-row: auto; height: 280px; }
+  .bannerDestaque { grid-row: auto; height: 360px; }
   .bannerConteudo h2 { font-size: 1.9rem; }
   .bannerMenor { height: 150px; }
 }
@@ -1096,7 +1191,7 @@ img { max-width: 100%; display: block; }
   .nav a { font-size: 10.5px; padding: 5px 7px; }
   .cart-link { padding: 6px 12px !important; gap: 4px !important; }
 
-  .bannerDestaque { height: 220px; }
+  .bannerDestaque { height: 280px; }
   .bannerConteudo h2 { font-size: 1.5rem; }
   .bannerConteudo button { padding: 11px 28px; font-size: 13px; }
   .bannerMenor { height: 120px; }
@@ -1138,7 +1233,7 @@ img { max-width: 100%; display: block; }
   .nav a { font-size: 10px; padding: 5px 6px; }
   .cart-link { padding: 5px 9px !important; }
 
-  .bannerDestaque { height: 190px; }
+  .bannerDestaque { height: 240px; }
   .bannerConteudo h2 { font-size: 1.3rem; }
   .bannerMenor { height: 100px; }
   .bannerMenor h1 { font-size: 1.1rem; }

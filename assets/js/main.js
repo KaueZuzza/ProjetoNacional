@@ -153,34 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  /* ---- CARRINHO ---- */
-  let cartCount = 0;
-  const cartCountEl = document.getElementById('cartCount');
-
-  window.addToCart = function (btn) {
-    cartCount++;
-    if (cartCountEl) {
-      cartCountEl.textContent = cartCount;
-      // Animação de bounce no contador
-      cartCountEl.style.transform = 'scale(1.6)';
-      setTimeout(() => { cartCountEl.style.transform = ''; }, 250);
-    }
-
-    // Feedback no botão
-    const t = translations[window._lang || 'pt'];
-    const original = btn.textContent;
-    btn.textContent = t.adicionado;
-    btn.classList.add('btn-added');
-    btn.disabled = true;
-
-    setTimeout(() => {
-      btn.textContent = original;
-      btn.classList.remove('btn-added');
-      btn.disabled = false;
-    }, 2000);
-
-    showToast(t.toastCart);
-  };
+  /* ---- CARRINHO (lógica centralizada em cart.js) ---- */
 
   /* ---- WISHLIST ---- */
   window.toggleWishlist = function (btn) {

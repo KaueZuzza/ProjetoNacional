@@ -101,7 +101,13 @@ function cardHtml(p) {
           <span class="price-new">R$ ${fmt(p.price)}</span>
         </div>
         <span class="price-installment">${inst}x de R$ ${instVal} sem juros</span>
-        <button onclick="addToCart(this)">Comprar</button>
+        <button onclick="addToCart(this)"
+          data-id="${p.id}"
+          data-name="${p.name}"
+          data-price="${p.price}"
+          data-old-price="${p.oldPrice || ''}"
+          data-img="${p.img}"
+          data-cat="${p.catLabel}">Comprar</button>
       </div>
     </div>
   `;
