@@ -359,7 +359,30 @@ document.addEventListener('DOMContentLoaded', () => {
   initAccordion();
   initCatTabs();
   initViewToggle();
-  render();
+
+  /* Aplica filtros vindos da URL (?cat=calcados&search=tênis) */
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCat    = urlParams.get('cat');
+  const urlSearch = urlParams.get('search');
+
+  let hasUrlFilter = false;
+
+  if (urlCat) {
+    activeFilters.categories = [urlCat];
+    const cb = document.querySelector(`input[name="cat"][value="${urlCat}"]`);
+    if (cb) cb.checked = true;
+    syncTabsFromFilters();
+    hasUrlFilter = true;
+  }
+
+  if (urlSearch) {
+    activeFilters.search = urlSearch;
+    const si = document.getElementById('searchInput');
+    if (si) si.value = urlSearch;
+    hasUrlFilter = true;
+  }
+
+  if (hasUrlFilter) applyFilters(); else render();
 
   /* ---- Categoria ---- */
   document.querySelectorAll('input[name="cat"]').forEach(cb => {
@@ -431,9 +454,17 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilters();
   });
 
-  /* ---- Busca em tempo real ---- */
-  document.getElementById('searchInput')?.addEventListener('input', function () {
+  /* ---- Busca ---- */
+  const searchInput = document.getElementById('searchInput');
+  searchInput?.addEventListener('input', function () {
     activeFilters.search = this.value.trim();
+    applyFilters();
+  });
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { searchInput.value = ''; activeFilters.search = ''; applyFilters(); }
+  });
+  document.querySelector('.search-button')?.addEventListener('click', () => {
+    activeFilters.search = searchInput?.value.trim() || '';
     applyFilters();
   });
 

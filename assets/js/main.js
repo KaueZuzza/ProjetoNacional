@@ -200,13 +200,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ---- SEARCH: limpa ao pressionar ESC ---- */
-  const searchInput = document.getElementById('searchInput');
-  searchInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') searchInput.blur();
-    if (e.key === 'Enter' && searchInput.value.trim()) {
-      showToast(`Buscando por "${searchInput.value.trim()}"...`);
+  /* ---- SEARCH (só na home — products.html tem lógica própria em products.js) ---- */
+  const onProductsPage = window.location.pathname.includes('products.html');
+
+  if (!onProductsPage) {
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn   = document.querySelector('.search-button');
+
+    function doSearch() {
+      const q = searchInput?.value.trim();
+      if (!q) return;
+      window.location.href = `pages/products.html?search=${encodeURIComponent(q)}`;
     }
-  });
+
+    searchInput?.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { searchInput.value = ''; searchInput.blur(); }
+      if (e.key === 'Enter')  doSearch();
+    });
+
+    searchBtn?.addEventListener('click', doSearch);
+  }
 
 });

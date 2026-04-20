@@ -182,7 +182,7 @@
       const cart     = CartStore.get();
       const subtotal = cart.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
       const discount = subtotal * discountPct;
-      const frete    = (subtotal - discount) >= 199 ? 0 : 19.90;
+      const frete    = (subtotal - discount) >= 199 ? 0 : 19.90; // Frete grátis para pedidos acima de R$199
       const total    = subtotal - discount + frete;
 
       document.getElementById('sumSubtotal').textContent = `R$ ${fmt(subtotal)}`;
