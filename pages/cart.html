@@ -112,9 +112,14 @@
 
   <script src="../assets/js/cart.js"></script>
   <script>
-    const CUPONS = { 'NACIONAL10': 0.10, 'DESCONTO15': 0.15 };
     const fmt = v => v.toFixed(2).replace('.', ',');
     let discountPct = 0;
+
+    /* Remove itens corrompidos (sem nome ou preço) salvos por versões antigas */
+    (function cleanCart() {
+      const clean = CartStore.get().filter(i => i.name && i.name !== 'Produto' && Number(i.price) > 0);
+      CartStore.save(clean);
+    })();
 
     function renderCart() {
       const cart   = CartStore.get();
@@ -140,7 +145,7 @@
         btnCO.style.opacity = '1';
 
         list.innerHTML = cart.map(item => {
-          const sub    = item.price * item.qty;
+          const sub    = (Number(item.price) || 0) * (Number(item.qty) || 1);
           const oldTag = item.oldPrice
             ? `<span class="cart-item-old">R$ ${fmt(item.oldPrice)}</span>` : '';
           const img    = '../' + (item.img || 'assets/images/FotoCalcado.jpeg');
@@ -175,7 +180,7 @@
 
     function updateSummary() {
       const cart     = CartStore.get();
-      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const subtotal = cart.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
       const discount = subtotal * discountPct;
       const frete    = (subtotal - discount) >= 199 ? 0 : 19.90;
       const total    = subtotal - discount + frete;

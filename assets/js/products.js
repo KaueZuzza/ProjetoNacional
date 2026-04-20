@@ -453,4 +453,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Fecha sidebar ao confirmar filtro no mobile (clicando no btn-limpar ou fora) */
   document.getElementById('limparFiltros')?.addEventListener('click', closeSidebar);
+
+  /* ── addToCart: lê do array PRODUCTS (dados JS limpos, sem atributos HTML) ── */
+  window.addToCart = function(btn) {
+    const id = parseInt(btn.getAttribute('data-id'), 10);
+    const p  = PRODUCTS.find(x => x.id === id);
+    if (!p || !window.CartStore) return;
+
+    CartStore.add({
+      id:       p.id,
+      name:     p.name,
+      price:    p.price,
+      oldPrice: p.oldPrice || null,
+      img:      p.img.replace(/^\.\.\//, ''),
+      cat:      p.catLabel,
+    });
+
+    const orig = btn.textContent;
+    btn.textContent = '✓ Adicionado!';
+    btn.classList.add('btn-added');
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('btn-added');
+      btn.disabled = false;
+    }, 2000);
+
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      toast.className = 'toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = '🛒 Produto adicionado ao carrinho!';
+    toast.classList.add('show');
+    clearTimeout(window._cartToast);
+    window._cartToast = setTimeout(() => toast.classList.remove('show'), 3000);
+  };
 });
