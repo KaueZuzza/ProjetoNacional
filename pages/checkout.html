@@ -108,64 +108,101 @@
             </div>
           </div>
 
-          <!-- SEÇÃO 2: ENDEREÇO -->
+          <!-- SEÇÃO 2: ENTREGA -->
           <div class="checkout-section">
             <div class="checkout-section-header">
-              <span class="checkout-section-icon">📦</span>
-              Endereço de entrega
+              <span class="checkout-section-icon">🚚</span>
+              Entrega
             </div>
             <div class="checkout-section-body">
-              <div class="co-grid co-grid-cep">
-                <div class="co-field">
-                  <label for="coCep">CEP *</label>
-                  <input type="text" id="coCep" placeholder="00000-000" maxlength="9" required>
-                  <span class="field-error">CEP inválido</span>
+              <div class="pay-options" id="deliveryOptions">
+
+                <!-- Retirada na loja -->
+                <div class="pay-option selected" id="delRetirada" onclick="selectDelivery('retirada')">
+                  <div class="pay-option-header">
+                    <div class="pay-option-radio"></div>
+                    <span class="pay-option-icon">🏪</span>
+                    <div class="pay-option-info">
+                      <div class="pay-option-name">Retirada na loja</div>
+                      <div class="pay-option-desc">Sem custo de frete &nbsp;·&nbsp; Capitão Poço / PA &nbsp;·&nbsp; Seg–Sáb 8h–18h</div>
+                    </div>
+                    <span style="margin-left:auto;font-weight:800;color:#22c55e;font-size:.85rem;white-space:nowrap;padding-left:8px">Grátis</span>
+                  </div>
                 </div>
-                <button class="btn-cep" id="btnBuscarCep" type="button">Buscar</button>
-              </div>
-              <div class="co-grid" style="margin-top:14px">
-                <div class="co-field">
-                  <label for="coRua">Rua / Logradouro *</label>
-                  <input type="text" id="coRua" placeholder="Rua das Flores" required>
-                  <span class="field-error">Informe a rua</span>
+
+                <!-- Entrega local / Correios -->
+                <div class="pay-option" id="delEntrega" onclick="selectDelivery('entrega')">
+                  <div class="pay-option-header">
+                    <div class="pay-option-radio"></div>
+                    <span class="pay-option-icon">🚚</span>
+                    <div class="pay-option-info">
+                      <div class="pay-option-name">Entrega local</div>
+                      <div class="pay-option-desc">Capitão Poço/PA: R$ 10,00 fixo &nbsp;·&nbsp; Outras cidades: via Correios</div>
+                    </div>
+                  </div>
+
+                  <!-- Formulário de endereço -->
+                  <div id="deliveryAddressWrap" style="display:none;padding:0 18px 18px;border-top:1px solid #f0f0f0">
+                    <div class="co-grid co-grid-cep" style="padding-top:14px">
+                      <div class="co-field">
+                        <label for="coCep">CEP *</label>
+                        <input type="text" id="coCep" placeholder="00000-000" maxlength="9">
+                        <span class="field-error">CEP inválido</span>
+                      </div>
+                      <button class="btn-cep" id="btnBuscarCep" type="button">Buscar</button>
+                    </div>
+                    <div class="co-grid" style="margin-top:14px">
+                      <div class="co-field">
+                        <label for="coRua">Rua / Logradouro *</label>
+                        <input type="text" id="coRua" placeholder="Rua das Flores">
+                        <span class="field-error">Informe a rua</span>
+                      </div>
+                    </div>
+                    <div class="co-grid co-grid-3" style="margin-top:14px">
+                      <div class="co-field">
+                        <label for="coNum">Número *</label>
+                        <input type="text" id="coNum" placeholder="123">
+                        <span class="field-error">Informe o número</span>
+                      </div>
+                      <div class="co-field">
+                        <label for="coComp">Complemento</label>
+                        <input type="text" id="coComp" placeholder="Apto 10">
+                      </div>
+                      <div class="co-field">
+                        <label for="coBairro">Bairro *</label>
+                        <input type="text" id="coBairro" placeholder="Centro">
+                        <span class="field-error">Informe o bairro</span>
+                      </div>
+                    </div>
+                    <div class="co-grid co-grid-2" style="margin-top:14px">
+                      <div class="co-field">
+                        <label for="coCidade">Cidade *</label>
+                        <input type="text" id="coCidade" placeholder="Capitão Poço">
+                        <span class="field-error">Informe a cidade</span>
+                      </div>
+                      <div class="co-field">
+                        <label for="coEstado">Estado *</label>
+                        <select id="coEstado">
+                          <option value="">Selecione</option>
+                          <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+                          <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+                          <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+                          <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+                          <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+                          <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+                          <option>SP</option><option>SE</option><option>TO</option>
+                        </select>
+                        <span class="field-error">Selecione o estado</span>
+                      </div>
+                    </div>
+
+                    <!-- Estimativa de frete -->
+                    <div id="freteEstimativa" style="display:none;margin-top:16px;padding:12px 16px;border-radius:8px;border:1.5px solid #86efac;background:#f0fdf4">
+                      <div id="freteEstimativaText" style="font-size:.85rem;font-weight:600;color:#166534;line-height:1.5"></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="co-grid co-grid-3" style="margin-top:14px">
-                <div class="co-field">
-                  <label for="coNum">Número *</label>
-                  <input type="text" id="coNum" placeholder="123" required>
-                  <span class="field-error">Informe o número</span>
-                </div>
-                <div class="co-field">
-                  <label for="coComp">Complemento</label>
-                  <input type="text" id="coComp" placeholder="Apto 10">
-                </div>
-                <div class="co-field">
-                  <label for="coBairro">Bairro *</label>
-                  <input type="text" id="coBairro" placeholder="Centro" required>
-                  <span class="field-error">Informe o bairro</span>
-                </div>
-              </div>
-              <div class="co-grid co-grid-2" style="margin-top:14px">
-                <div class="co-field">
-                  <label for="coCidade">Cidade *</label>
-                  <input type="text" id="coCidade" placeholder="São Paulo" required>
-                  <span class="field-error">Informe a cidade</span>
-                </div>
-                <div class="co-field">
-                  <label for="coEstado">Estado *</label>
-                  <select id="coEstado" required>
-                    <option value="">Selecione</option>
-                    <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
-                    <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
-                    <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
-                    <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
-                    <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
-                    <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
-                    <option>SP</option><option>SE</option><option>TO</option>
-                  </select>
-                  <span class="field-error">Selecione o estado</span>
-                </div>
+
               </div>
             </div>
           </div>
@@ -177,7 +214,7 @@
               Forma de pagamento
             </div>
             <div class="checkout-section-body">
-              <div class="pay-options">
+              <div class="pay-options" id="payOptions">
 
                 <!-- CARTÃO -->
                 <div class="pay-option selected" id="payCard" onclick="selectPay('card')">
@@ -310,7 +347,101 @@
     const fmt = v => v.toFixed(2).replace('.', ',');
     const discountPct = parseFloat(sessionStorage.getItem('ln_discount') || 0);
     let payMethod = 'card';
+    let deliveryMethod = 'retirada';
     let pixInterval;
+
+    /* ── TABELA CORREIOS POR UF ── */
+    const CORREIOS = {
+      PA: { preco: 15.90, prazo: '3–5 dias úteis' },
+      AC: { preco: 18.90, prazo: '5–8 dias úteis' }, 
+      AM: { preco: 18.90, prazo: '5–8 dias úteis' },
+      AP: { preco: 18.90, prazo: '5–8 dias úteis' }, 
+      RO: { preco: 18.90, prazo: '5–8 dias úteis' },
+      RR: { preco: 18.90, prazo: '5–8 dias úteis' }, 
+      TO: { preco: 18.90, prazo: '5–8 dias úteis' },
+      AL: { preco: 22.90, prazo: '8–12 dias úteis' }, 
+      BA: { preco: 22.90, prazo: '8–12 dias úteis' },
+      CE: { preco: 22.90, prazo: '8–12 dias úteis' }, 
+      MA: { preco: 22.90, prazo: '8–12 dias úteis' },
+      PB: { preco: 22.90, prazo: '8–12 dias úteis' }, 
+      PE: { preco: 22.90, prazo: '8–12 dias úteis' },
+      PI: { preco: 22.90, prazo: '8–12 dias úteis' }, 
+      RN: { preco: 22.90, prazo: '8–12 dias úteis' },
+      SE: { preco: 22.90, prazo: '8–12 dias úteis' },
+      DF: { preco: 26.90, prazo: '10–15 dias úteis' }, 
+      GO: { preco: 26.90, prazo: '10–15 dias úteis' },
+      MT: { preco: 26.90, prazo: '10–15 dias úteis' }, 
+      MS: { preco: 26.90, prazo: '10–15 dias úteis' },
+      ES: { preco: 30.90, prazo: '12–18 dias úteis' }, 
+      MG: { preco: 30.90, prazo: '12–18 dias úteis' },
+      RJ: { preco: 30.90, prazo: '12–18 dias úteis' }, 
+      SP: { preco: 30.90, prazo: '12–18 dias úteis' },
+      PR: { preco: 35.90, prazo: '15–22 dias úteis' }, 
+      RS: { preco: 35.90, prazo: '15–22 dias úteis' },
+      SC: { preco: 35.90, prazo: '15–22 dias úteis' },
+    };
+
+    function normStr(s) {
+      return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function calcFrete(netTotal) {
+      if (deliveryMethod === 'retirada') return 0;
+      const cidade = document.getElementById('coCidade')?.value || '';
+      const uf     = (document.getElementById('coEstado')?.value || '').trim().toUpperCase();
+      if (!cidade || !uf) return 0;
+      if (normStr(cidade) === 'capitao poco' && uf === 'PA') return 10;
+      if (netTotal >= 199) return 0;
+      return (CORREIOS[uf] || { preco: 22.90 }).preco;
+    }
+
+    /* ── SELEÇÃO DE ENTREGA ── */
+    function selectDelivery(method) {
+      deliveryMethod = method;
+      document.querySelectorAll('#deliveryOptions .pay-option').forEach(el => el.classList.remove('selected'));
+      const wrap = document.getElementById('deliveryAddressWrap');
+      if (method === 'retirada') {
+        document.getElementById('delRetirada').classList.add('selected');
+        wrap.style.display = 'none';
+        document.getElementById('freteEstimativa').style.display = 'none';
+      } else {
+        document.getElementById('delEntrega').classList.add('selected');
+        wrap.style.display = 'block';
+        updateFreteEstimativa();
+      }
+      renderSummary();
+    }
+
+    function updateFreteEstimativa() {
+      const cidade = (document.getElementById('coCidade')?.value || '').trim();
+      const uf     = (document.getElementById('coEstado')?.value || '').trim().toUpperCase();
+      const box    = document.getElementById('freteEstimativa');
+      const txt    = document.getElementById('freteEstimativaText');
+      if (!cidade || !uf) { box.style.display = 'none'; renderSummary(); return; }
+
+      const cart     = CartStore.get();
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const pixDisc  = payMethod === 'pix' ? subtotal * 0.05 : 0;
+      const discount = subtotal * discountPct + pixDisc;
+      const net      = subtotal - discount;
+
+      if (normStr(cidade) === 'capitao poco' && uf === 'PA') {
+        box.style.cssText = 'display:block;margin-top:16px;padding:12px 16px;border-radius:8px;border:1.5px solid #93c5fd;background:#eff6ff';
+        txt.style.color = '#1e40af';
+        txt.innerHTML = '🏍️ Entrega local &nbsp;·&nbsp; <strong>R$ 10,00</strong> &nbsp;·&nbsp; Prazo: 6h a 12h (horário comercial)';
+      } else {
+        const info = CORREIOS[uf] || { preco: 22.90, prazo: '7–15 dias úteis' };
+        box.style.cssText = 'display:block;margin-top:16px;padding:12px 16px;border-radius:8px;border:1.5px solid #86efac;background:#f0fdf4';
+        txt.style.color = '#166534';
+        if (net >= 199) {
+          txt.innerHTML = `📦 Correios &nbsp;·&nbsp; <strong>Frete Grátis</strong> (compra acima de R$ 199) &nbsp;·&nbsp; Prazo: ${info.prazo}`;
+        } else {
+          txt.innerHTML = `📦 Correios &nbsp;·&nbsp; <strong>R$ ${fmt(info.preco)}</strong> &nbsp;·&nbsp; Prazo: ${info.prazo}`;
+        }
+      }
+      box.style.display = 'block';
+      renderSummary();
+    }
 
     /* ── RESUMO ── */
     function renderSummary() {
@@ -318,8 +449,9 @@
       const subtotal  = cart.reduce((s, i) => s + i.price * i.qty, 0);
       const pixDisc   = payMethod === 'pix' ? subtotal * 0.05 : 0;
       const discount  = subtotal * discountPct + pixDisc;
-      const frete     = (subtotal - discount) >= 199 ? 0 : 19.90;
-      const total     = subtotal - discount + frete;
+      const net       = subtotal - discount;
+      const frete     = calcFrete(net);
+      const total     = net + frete;
 
       document.getElementById('coSubtotal').textContent = `R$ ${fmt(subtotal)}`;
 
@@ -333,7 +465,7 @@
 
       const freteEl = document.getElementById('coFrete');
       if (frete === 0) {
-        freteEl.textContent = 'Grátis';
+        freteEl.textContent = deliveryMethod === 'retirada' ? 'Grátis (Retirada)' : 'Grátis';
         freteEl.style.color = '#22c55e';
         freteEl.style.fontWeight = '700';
       } else {
@@ -347,7 +479,6 @@
       document.getElementById('coInst').textContent =
         total > 0 ? `ou ${nInst}x de R$ ${fmt(total / nInst)} sem juros` : '';
 
-      /* parcelas no select do cartão */
       const selInst = document.getElementById('cardInst');
       selInst.innerHTML = '';
       for (let i = 1; i <= nInst; i++) {
@@ -357,7 +488,6 @@
         selInst.appendChild(opt);
       }
 
-      /* mini lista */
       document.getElementById('miniList').innerHTML = cart.map(item => {
         const img = '../' + (item.img || 'assets/images/FotoCalcado.jpeg');
         return `
@@ -376,10 +506,8 @@
     /* ── PAGAMENTO ── */
     function selectPay(method) {
       payMethod = method;
-
-      document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
+      document.querySelectorAll('#payOptions .pay-option').forEach(el => el.classList.remove('selected'));
       document.querySelectorAll('.card-fields, .pix-box, .boleto-box').forEach(el => el.classList.remove('active'));
-
       clearInterval(pixInterval);
 
       if (method === 'card') {
@@ -395,6 +523,7 @@
       }
 
       renderSummary();
+      if (deliveryMethod === 'entrega') updateFreteEstimativa();
     }
 
     function startPixTimer() {
@@ -474,10 +603,14 @@
           document.getElementById('coEstado').value = data.uf         || '';
           document.getElementById('coNum').focus();
           showToast('Endereço preenchido automaticamente!');
+          updateFreteEstimativa();
         })
         .catch(() => showToast('Erro ao buscar CEP. Tente novamente.'))
         .finally(() => { btn.textContent = 'Buscar'; btn.disabled = false; });
     }
+
+    document.getElementById('coCidade').addEventListener('input', updateFreteEstimativa);
+    document.getElementById('coEstado').addEventListener('change', updateFreteEstimativa);
 
     /* ── VALIDAÇÃO ── */
     function validateField(input, checkFn) {
@@ -498,20 +631,24 @@
 
     /* ── CONFIRMAR PEDIDO ── */
     function confirmOrder() {
-      const fields = [
+      const baseFields = [
         [document.getElementById('coNome'),      required],
         [document.getElementById('coSobrenome'), required],
         [document.getElementById('coEmail'),     emailRe],
         [document.getElementById('coTel'),       telRe],
         [document.getElementById('coCpf'),       cpfRe],
-        [document.getElementById('coCep'),       cepRe],
-        [document.getElementById('coRua'),       required],
-        [document.getElementById('coNum'),       required],
-        [document.getElementById('coBairro'),    required],
-        [document.getElementById('coCidade'),    required],
-        [document.getElementById('coEstado'),    required],
       ];
 
+      const addrFields = deliveryMethod === 'entrega' ? [
+        [document.getElementById('coCep'),     cepRe],
+        [document.getElementById('coRua'),     required],
+        [document.getElementById('coNum'),     required],
+        [document.getElementById('coBairro'),  required],
+        [document.getElementById('coCidade'),  required],
+        [document.getElementById('coEstado'),  required],
+      ] : [];
+
+      const fields = [...baseFields, ...addrFields];
       const ok = fields.map(([el, fn]) => validateField(el, fn)).every(Boolean);
       if (!ok) {
         showToast('Preencha todos os campos obrigatórios');
@@ -567,6 +704,7 @@
 
     renderSummary();
     selectPay('card');
+    selectDelivery('retirada');
   </script>
 
 </body>
