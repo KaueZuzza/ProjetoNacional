@@ -662,6 +662,43 @@
       spinner.style.display = 'block';
 
       setTimeout(() => {
+        const cart     = CartStore.get();
+        const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+        const pixDisc  = payMethod === 'pix' ? subtotal * 0.05 : 0;
+        const discount = subtotal * discountPct + pixDisc;
+        const net      = subtotal - discount;
+        const frete    = calcFrete(net);
+        const total    = net + frete;
+        const num      = '#' + Math.floor(100000 + Math.random() * 900000);
+
+        const order = {
+          id: num,
+          date: new Date().toISOString(),
+          customer: {
+            nome:      document.getElementById('coNome').value.trim(),
+            sobrenome: document.getElementById('coSobrenome').value.trim(),
+            email:     document.getElementById('coEmail').value.trim(),
+            tel:       document.getElementById('coTel').value.trim(),
+            cpf:       document.getElementById('coCpf').value.trim(),
+          },
+          delivery: {
+            method:  deliveryMethod,
+            cep:     document.getElementById('coCep')?.value.trim()     || '',
+            rua:     document.getElementById('coRua')?.value.trim()     || '',
+            num:     document.getElementById('coNum')?.value.trim()     || '',
+            bairro:  document.getElementById('coBairro')?.value.trim()  || '',
+            cidade:  document.getElementById('coCidade')?.value.trim()  || '',
+            estado:  document.getElementById('coEstado')?.value.trim()  || '',
+          },
+          payment:  payMethod,
+          items:    cart,
+          subtotal, discount, frete, total,
+        };
+
+        const orders = JSON.parse(localStorage.getItem('ln_orders') || '[]');
+        orders.unshift(order);
+        localStorage.setItem('ln_orders', JSON.stringify(orders));
+
         CartStore.clear();
         sessionStorage.removeItem('ln_discount');
         clearInterval(pixInterval);
@@ -669,7 +706,6 @@
         document.getElementById('checkoutGrid').style.display = 'none';
         document.querySelectorAll('.checkout-steps, .checkout-page .cart-page-title').forEach(el => el.style.display = 'none');
 
-        const num = '#' + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('successOrderNum').textContent = `Número do pedido: ${num}`;
         document.getElementById('successScreen').classList.add('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });

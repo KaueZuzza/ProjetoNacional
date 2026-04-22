@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Pedidos – Lojas Nacional</title>
+  <link rel="icon" href="../assets/images/Icons/favicon.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* ════════════════════════════════
+       HERO BANNER
+    ════════════════════════════════ */
+    .orders-hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #ff4444 100%);
+      color: #fff;
+      padding: 48px 0 56px;
+      margin-bottom: -28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .orders-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .orders-hero-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; gap: 20px; position: relative;
+    }
+    .orders-hero-icon {
+      font-size: 3.5rem; line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
+    }
+    .orders-hero-text h1 {
+      font-size: 2rem; font-weight: 900; letter-spacing: -.5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .orders-hero-text p {
+      margin-top: 4px; font-size: .95rem; opacity: .85;
+    }
+    .orders-hero-wave {
+      position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 28px; overflow: hidden;
+    }
+    .orders-hero-wave svg { display: block; width: 100%; height: 100%; }
+
+    /* ════════════════════════════════
+       PAGE LAYOUT
+    ════════════════════════════════ */
+    .orders-page { padding: 40px 0 72px; min-height: 60vh; margin: 50px;}
+
+    /* ════════════════════════════════
+       STATS BAR
+    ════════════════════════════════ */
+    .orders-stats {
+      display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 99px;
+      background: var(--secondary); border: 1.5px solid #e8e8e8;
+      font-size: .82rem; font-weight: 600; color: var(--text-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      cursor: pointer; transition: all .2s;
+    }
+    [data-theme="dark"] .stat-pill { border-color: #333; }
+    .stat-pill:hover { border-color: var(--primary); color: var(--primary); }
+    .stat-pill.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .stat-pill .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+
+    /* ════════════════════════════════
+       ORDER CARD
+    ════════════════════════════════ */
+    .order-card {
+      background: var(--secondary);
+      border-radius: 20px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      border: 1px solid rgba(0,0,0,.06);
+      transition: transform .25s, box-shadow .25s;
+      animation: cardIn .4s ease both;
+    }
+    [data-theme="dark"] .order-card { border-color: rgba(255,255,255,.06); }
+    .order-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .order-card:nth-child(1) { animation-delay: .05s; }
+    .order-card:nth-child(2) { animation-delay: .10s; }
+    .order-card:nth-child(3) { animation-delay: .15s; }
+    .order-card:nth-child(4) { animation-delay: .20s; }
+
+    /* LEFT ACCENT BAR */
+    .order-card-inner {
+      display: flex;
+    }
+    .order-accent {
+      width: 5px; flex-shrink: 0; border-radius: 0;
+    }
+    .order-accent.confirmado { background: linear-gradient(180deg,#3b82f6,#60a5fa); }
+    .order-accent.separacao  { background: linear-gradient(180deg,#f59e0b,#fbbf24); }
+    .order-accent.enviado    { background: linear-gradient(180deg,#0ea5e9,#38bdf8); }
+    .order-accent.caminho    { background: linear-gradient(180deg,#8b5cf6,#a78bfa); }
+    .order-accent.entregue   { background: linear-gradient(180deg,#10b981,#34d399); }
+    .order-accent.pronto     { background: linear-gradient(180deg,#f97316,#fb923c); }
+    .order-accent.retirado   { background: linear-gradient(180deg,#10b981,#34d399); }
+    .order-accent.aguardando { background: linear-gradient(180deg,#ef4444,#f87171); }
+
+    .order-content { flex: 1; min-width: 0; }
+
+    /* ── HEADER ── */
+    .order-header {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 10px; padding: 18px 22px 14px;
+    }
+    .order-header-left  { display: flex; flex-direction: column; gap: 2px; }
+    .order-header-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .order-id   { font-weight: 800; font-size: 1.05rem; color: var(--text-dark); letter-spacing: -.3px; }
+    .order-date { color: #999; font-size: .78rem; display: flex; align-items: center; gap: 5px; }
+    .order-date svg { width: 12px; height: 12px; }
+    .order-total { font-weight: 800; font-size: 1.15rem; color: var(--primary); }
+    .order-items-count { color: #aaa; font-size: .75rem; }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 99px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+    .status-badge::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-badge.confirmado { background: #eff6ff; color: #1d4ed8; }
+    .status-badge.confirmado::before { background: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.25); animation: pulse-dot 1.4s infinite; }
+    .status-badge.separacao  { background: #fffbeb; color: #92400e; }
+    .status-badge.separacao::before  { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.25); animation: pulse-dot 1.4s infinite; }
+    .status-badge.enviado    { background: #f0f9ff; color: #0369a1; }
+    .status-badge.enviado::before    { background: #0ea5e9; }
+    .status-badge.caminho    { background: #f5f3ff; color: #6d28d9; }
+    .status-badge.caminho::before    { background: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,.25); animation: pulse-dot 1.4s infinite; }
+    .status-badge.entregue   { background: #f0fdf4; color: #166534; }
+    .status-badge.entregue::before   { background: #10b981; }
+    .status-badge.pronto     { background: #fff7ed; color: #9a3412; }
+    .status-badge.pronto::before     { background: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,.25); animation: pulse-dot 1.4s infinite; }
+    .status-badge.retirado   { background: #f0fdf4; color: #065f46; }
+    .status-badge.retirado::before   { background: #10b981; }
+    .status-badge.aguardando { background: #fff1f2; color: #9f1239; }
+    .status-badge.aguardando::before { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.25); animation: pulse-dot 1.4s infinite; }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(var(--dot-clr), .3); }
+      50%       { box-shadow: 0 0 0 5px rgba(var(--dot-clr), .1); }
+    }
+
+    /* ── DIVIDER ── */
+    .order-divider { height: 1px; background: rgba(0,0,0,.06); margin: 0 22px; }
+    [data-theme="dark"] .order-divider { background: rgba(255,255,255,.06); }
+
+    /* ════════════════════════════════
+       TRACKER
+    ════════════════════════════════ */
+    .order-tracker {
+      padding: 20px 22px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .order-tracker::-webkit-scrollbar { display: none; }
+    .tracker-wrap {
+      display: flex; align-items: flex-start;
+      min-width: max-content; gap: 0;
+    }
+    .tracker-step {
+      display: flex; flex-direction: column; align-items: center;
+      flex: 1; min-width: 90px; position: relative;
+    }
+    .tracker-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 18px; left: calc(50% + 18px);
+      width: calc(100% - 36px);
+      height: 3px;
+      background: #e5e7eb;
+      border-radius: 99px;
+      z-index: 0;
+    }
+    [data-theme="dark"] .tracker-step:not(:last-child)::after { background: #374151; }
+    .tracker-step.done:not(:last-child)::after  { background: linear-gradient(90deg, var(--primary), var(--primary-main)); }
+    .tracker-step.active:not(:last-child)::after {
+      background: linear-gradient(90deg, var(--primary) 30%, #e5e7eb 100%);
+    }
+
+    .tracker-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #f3f4f6; border: 2.5px solid #e5e7eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; position: relative; z-index: 1;
+      transition: all .3s;
+    }
+    [data-theme="dark"] .tracker-dot { background: #1f2937; border-color: #374151; }
+    .tracker-step.done .tracker-dot {
+      background: var(--primary); border-color: var(--primary);
+      color: #fff; font-size: .8rem; font-weight: 700;
+      box-shadow: 0 4px 12px rgba(219,0,4,.3);
+    }
+    .tracker-step.active .tracker-dot {
+      background: #fff; border-color: var(--primary); border-width: 3px;
+      box-shadow: 0 0 0 4px rgba(219,0,4,.12), 0 4px 12px rgba(219,0,4,.2);
+      animation: tracker-pulse 2s ease-in-out infinite;
+    }
+    [data-theme="dark"] .tracker-step.active .tracker-dot { background: #1e1e1e; }
+    @keyframes tracker-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(219,0,4,.12), 0 4px 12px rgba(219,0,4,.2); }
+      50%       { box-shadow: 0 0 0 8px rgba(219,0,4,.06), 0 4px 16px rgba(219,0,4,.15); }
+    }
+
+    .tracker-label {
+      margin-top: 10px; font-size: .7rem; text-align: center;
+      color: #9ca3af; white-space: nowrap; line-height: 1.3; font-weight: 500;
+    }
+    .tracker-step.done .tracker-label  { color: var(--primary); font-weight: 700; }
+    .tracker-step.active .tracker-label { color: var(--text-dark); font-weight: 700; }
+
+    /* ════════════════════════════════
+       BODY / ITEMS TOGGLE
+    ════════════════════════════════ */
+    .order-body { padding: 16px 22px 20px; }
+
+    .order-toggle {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-radius: 12px;
+      background: var(--gray-bg); border: 1.5px solid transparent;
+      cursor: pointer; font-size: .875rem; font-weight: 700;
+      color: var(--text-dark); transition: all .2s; gap: 8px;
+    }
+    [data-theme="dark"] .order-toggle { background: #111; }
+    .order-toggle:hover { border-color: var(--primary); color: var(--primary); background: rgba(219,0,4,.04); }
+    .order-toggle-left { display: flex; align-items: center; gap: 10px; }
+    .toggle-icon { font-size: 1rem; }
+    .toggle-preview {
+      display: flex; gap: -6px; margin-left: 4px;
+    }
+    .toggle-thumb {
+      width: 28px; height: 28px; border-radius: 6px; object-fit: cover;
+      border: 2px solid var(--secondary); margin-left: -6px;
+    }
+    .toggle-thumb:first-child { margin-left: 0; }
+    .chevron-wrap {
+      width: 28px; height: 28px; border-radius: 8px; background: var(--secondary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; transition: transform .25s; flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    [data-theme="dark"] .chevron-wrap { background: #2a2a2a; }
+    .order-toggle.open .chevron-wrap { transform: rotate(180deg); }
+
+    /* ── ITEMS LIST ── */
+    .order-items {
+      overflow: hidden; max-height: 0;
+      transition: max-height .4s cubic-bezier(0.4,0,0.2,1), opacity .3s ease;
+      opacity: 0;
+    }
+    .order-items.show { max-height: 2000px; opacity: 1; }
+    .order-items-inner { padding-top: 16px; }
+
+    .order-item {
+      display: flex; gap: 14px; align-items: center;
+      padding: 10px 0; position: relative;
+    }
+    .order-item + .order-item {
+      border-top: 1px dashed rgba(0,0,0,.07);
+    }
+    [data-theme="dark"] .order-item + .order-item { border-color: rgba(255,255,255,.07); }
+
+    .order-item-img-wrap {
+      position: relative; flex-shrink: 0;
+    }
+    .order-item img {
+      width: 64px; height: 64px; object-fit: cover;
+      border-radius: 12px; border: 1.5px solid rgba(0,0,0,.07);
+      background: var(--gray-bg);
+    }
+    .order-item-qty-badge {
+      position: absolute; top: -6px; right: -6px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--primary); color: #fff;
+      font-size: .65rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--secondary);
+    }
+    .order-item-info { flex: 1; min-width: 0; }
+    .order-item-name {
+      font-weight: 700; font-size: .9rem; color: var(--text-dark);
+      margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .order-item-cat {
+      font-size: .75rem; color: #aaa;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .order-item-price { font-weight: 800; color: var(--primary); font-size: .95rem; white-space: nowrap; }
+
+    /* ── FOOTER INFO ── */
+    .order-footer-info {
+      margin-top: 16px; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    @media (max-width: 600px) { .order-footer-info { grid-template-columns: 1fr; } }
+
+    .info-card {
+      padding: 14px 16px; border-radius: 12px;
+      background: var(--gray-bg); border: 1.5px solid rgba(0,0,0,.06);
+    }
+    [data-theme="dark"] .info-card { border-color: rgba(255,255,255,.06); }
+    .info-card-label {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .6px; color: #aaa; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .info-card-val { font-size: .85rem; color: var(--text-dark); font-weight: 600; line-height: 1.5; }
+    .info-card-val small { color: #aaa; font-weight: 500; font-size: .78rem; }
+
+    /* ── TOTALS ── */
+    .order-totals {
+      margin-top: 12px; padding: 16px;
+      background: var(--gray-bg); border-radius: 12px;
+      border: 1.5px solid rgba(0,0,0,.06);
+    }
+    [data-theme="dark"] .order-totals { border-color: rgba(255,255,255,.06); }
+    .totals-label {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .6px; color: #aaa; margin-bottom: 10px;
+    }
+    .order-totals-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px; font-size: .85rem; color: #888;
+    }
+    .order-totals-row.final {
+      font-weight: 800; font-size: 1.05rem; color: var(--text-dark);
+      margin-top: 10px; padding-top: 10px; margin-bottom: 0;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    [data-theme="dark"] .order-totals-row.final { border-color: rgba(255,255,255,.08); }
+    .totals-green { color: #10b981; font-weight: 700; }
+    .totals-primary { color: var(--primary); font-weight: 800; }
+
+    /* ════════════════════════════════
+       EMPTY STATE
+    ════════════════════════════════ */
+    .orders-empty {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 20px; padding: 80px 24px 72px; text-align: center;
+      background: var(--secondary); border-radius: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      border: 1.5px dashed #e5e7eb;
+      animation: cardIn .5s ease both;
+    }
+    [data-theme="dark"] .orders-empty { border-color: #333; }
+    .empty-illustration {
+      position: relative; width: 120px; height: 120px;
+    }
+    .empty-bag {
+      font-size: 5rem; line-height: 1; display: block;
+      animation: bag-float 3s ease-in-out infinite;
+    }
+    .empty-sparkle {
+      position: absolute; font-size: 1.2rem;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    .empty-sparkle:nth-child(2) { top: 0; right: 0; animation-delay: .4s; }
+    .empty-sparkle:nth-child(3) { bottom: 10px; right: -8px; animation-delay: .8s; font-size: .9rem; }
+    .empty-sparkle:nth-child(4) { top: 10px; left: -4px; animation-delay: 1.2s; font-size: 1rem; }
+    @keyframes bag-float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: .4; transform: scale(.8); }
+      50%       { opacity: 1;  transform: scale(1.1); }
+    }
+    .orders-empty h3 { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); }
+    .orders-empty p  { color: #999; max-width: 320px; line-height: 1.6; font-size: .92rem; }
+    .empty-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; border-radius: 12px;
+      background: var(--primary); color: #fff;
+      font-weight: 700; font-size: .9rem; text-decoration: none;
+      transition: all .2s; box-shadow: 0 4px 16px rgba(219,0,4,.3);
+    }
+    .empty-cta:hover { background: var(--primary-dark); box-shadow: 0 6px 24px rgba(219,0,4,.4); transform: translateY(-1px); }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media (max-width: 640px) {
+      .orders-hero { padding: 36px 0 44px; }
+      .orders-hero-text h1 { font-size: 1.5rem; }
+      .orders-hero-icon { font-size: 2.5rem; }
+      .order-header { padding: 16px 18px 12px; }
+      .order-body { padding: 12px 18px 16px; }
+      .order-tracker { padding: 16px 18px; }
+      .order-divider { margin: 0 18px; }
+      .tracker-step { min-width: 72px; }
+      .tracker-dot { width: 30px; height: 30px; font-size: .85rem; }
+      .tracker-label { font-size: .62rem; }
+      .tracker-step:not(:last-child)::after { top: 15px; left: calc(50% + 15px); width: calc(100% - 30px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════
+     HEADER
+══════════════════════════ -->
+<header class="header" id="header">
+  <div class="headerTopo">
+    <div class="infoHeader">
+      <div class="marquee-wrap">
+        <div class="marquee-track">
+          <span data-i18n="marquee">🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span data-i18n="marquee">🚚 Frete grátis para todo o Brasil &nbsp;&nbsp;|&nbsp;&nbsp; 💳 Até 12x sem juros &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 Compra segura &nbsp;&nbsp;|&nbsp;&nbsp; 🎁 Troca grátis em 30 dias &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    <div class="linksHeaderTopo">
+      <button id="themeToggle" class="theme-btn">🌙</button>
+      <a href="http://google.com" target="_blank" data-i18n="ajuda">Ajuda</a>
+      <span class="lang-tag" id="langToggle">🇧🇷 PT-BR</span>
+      <a href="login.html" class="link-login" data-i18n="login">Login</a>
+      <a href="cadastro.html" class="link-cadastro" data-i18n="cadastrese">Cadastre-se</a>
+    </div>
+  </div>
+  <div class="headerMain">
+    <a href="../index.html" class="logo-wrap">
+      <img src="../assets/images/Logo_FundoTransp.png" alt="Lojas Nacional" class="logo">
+    </a>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Buscar produtos..." data-i18n-ph="searchPh">
+      <button class="search-button" type="submit">
+        <img src="../assets/images/Icons/procurar.png" alt="Buscar">
+      </button>
+    </div>
+    <nav class="nav">
+      <div class="app-qr-wrap">
+        <a href="#" id="appLink" data-i18n="baixeApp">Baixe o App</a>
+        <div class="app-qr-popup" id="appQrPopup">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https://www.instagram.com/lojasnacionalcapitaopoco" alt="QR Code Instagram">
+          <span data-i18n="igCaption">📸 Siga no Instagram</span>
+        </div>
+      </div>
+      <a href="../index.html" data-i18n="home">Home</a>
+      <a href="products.html" data-i18n="produtos">Produtos</a>
+      <a href="orders.html" class="nav-active">Meus Pedidos</a>
+      <a href="cart.html" class="cart-link">
+        <span data-i18n="carrinho">🛒 Carrinho</span> <span id="cartCount">0</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div id="toast" class="toast"></div>
+
+<!-- ══════════════════════════
+     HERO
+══════════════════════════ -->
+<section class="orders-hero">
+  <div class="orders-hero-inner">
+    <div class="orders-hero-icon">📦</div>
+    <div class="orders-hero-text">
+      <h1>Meus Pedidos</h1>
+      <p>Acompanhe e gerencie todas as suas compras</p>
+    </div>
+  </div>
+  <div class="orders-hero-wave">
+    <svg viewBox="0 0 1440 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 L0,14 Q360,0 720,14 Q1080,28 1440,14 L1440,28 Z" fill="var(--gray-bg)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+     MAIN
+══════════════════════════ -->
+<main class="container orders-page">
+  <div class="orders-stats" id="ordersStats"></div>
+  <div id="ordersContainer"></div>
+</main>
+
+<footer class="footer"><p>© 2026 Lojas Nacional</p></footer>
+
+<script src="../assets/js/cart.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+  /* ════ STATUS ════ */
+  function getStatus(order) {
+    const h = (Date.now() - new Date(order.date).getTime()) / 3600000;
+    const m = order.delivery.method;
+    if (m === 'retirada') {
+      if (h < 6)  return { key:'confirmado', label:'Confirmado',         icon:'✅' };
+      if (h < 24) return { key:'pronto',     label:'Pronto p/ Retirada', icon:'🏪' };
+      return             { key:'retirado',   label:'Retirado',           icon:'🎉' };
+    }
+    if (order.payment === 'boleto' && h < 72) return { key:'aguardando', label:'Aguard. Pagamento', icon:'🧾' };
+    if (h < 4)   return { key:'confirmado', label:'Confirmado',   icon:'✅' };
+    if (h < 24)  return { key:'separacao',  label:'Em Separação', icon:'📦' };
+    if (h < 72)  return { key:'enviado',    label:'Enviado',      icon:'🚚' };
+    if (h < 168) return { key:'caminho',    label:'A Caminho',    icon:'🗺️' };
+    return               { key:'entregue',  label:'Entregue',     icon:'🎉' };
+  }
+
+  function getSteps(order) {
+    if (order.delivery.method === 'retirada') return [
+      { key:'confirmado', label:'Confirmado',         icon:'✅' },
+      { key:'pronto',     label:'Pronto p/ Retirada', icon:'🏪' },
+      { key:'retirado',   label:'Retirado',           icon:'🎉' },
+    ];
+    return [
+      { key:'confirmado', label:'Confirmado',   icon:'✅' },
+      { key:'separacao',  label:'Em Separação', icon:'📦' },
+      { key:'enviado',    label:'Enviado',      icon:'🚚' },
+      { key:'caminho',    label:'A Caminho',    icon:'🗺️' },
+      { key:'entregue',   label:'Entregue',     icon:'🎉' },
+    ];
+  }
+
+  /* ════ HELPERS ════ */
+  const fmt  = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
+  const fmtD = iso => {
+    const d = new Date(iso);
+    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' })
+      + ' · ' + d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+  };
+  const payLabels  = { card:'💳 Cartão de Crédito', pix:'⚡ PIX', boleto:'🧾 Boleto Bancário' };
+  const delivIcons = { retirada:'🏪', entrega:'🚚' };
+  const delivNames = { retirada:'Retirada na loja', entrega:'Entrega' };
+
+  function fixImg(src) {
+    if (!src) return '';
+    if (src.startsWith('http') || src.startsWith('../')) return src;
+    return '../' + src;
+  }
+
+  /* ════ STATS BAR ════ */
+  function renderStats(orders) {
+    const total    = orders.length;
+    const entregue = orders.filter(o => getStatus(o).key === 'entregue' || getStatus(o).key === 'retirado').length;
+    const andamento = total - entregue;
+    const spent    = orders.reduce((s, o) => s + (+o.total || 0), 0);
+
+    document.getElementById('ordersStats').innerHTML = `
+      <div class="stat-pill">📋 <span>${total} pedido${total !== 1 ? 's' : ''}</span></div>
+      <div class="stat-pill">🚚 <span>${andamento} em andamento</span></div>
+      <div class="stat-pill">✅ <span>${entregue} entregue${entregue !== 1 ? 's' : ''}</span></div>
+      <div class="stat-pill" style="margin-left:auto">💰 Total gasto: <strong>${fmt(spent)}</strong></div>
+    `;
+  }
+
+  /* ════ RENDER ════ */
+  function renderOrders() {
+    const container = document.getElementById('ordersContainer');
+    const orders    = JSON.parse(localStorage.getItem('ln_orders') || '[]');
+
+    if (!orders.length) {
+      document.getElementById('ordersStats').style.display = 'none';
+      container.innerHTML = `
+        <div class="orders-empty">
+          <div class="empty-illustration">
+            <span class="empty-bag">🛍️</span>
+            <span class="empty-sparkle">✨</span>
+            <span class="empty-sparkle">⭐</span>
+            <span class="empty-sparkle">💫</span>
+          </div>
+          <h3>Nenhum pedido ainda</h3>
+          <p>Você ainda não realizou nenhuma compra. Explore nossos produtos e aproveite as melhores ofertas!</p>
+          <a href="products.html" class="empty-cta">🛒 Explorar Produtos</a>
+        </div>`;
+      return;
+    }
+
+    renderStats(orders);
+
+    container.innerHTML = orders.map((order, idx) => {
+      const status     = getStatus(order);
+      const steps      = getSteps(order);
+      const currentIdx = steps.findIndex(s => s.key === status.key);
+
+      /* tracker */
+      const trackerHtml = steps.map((step, i) => {
+        const cls = i < currentIdx ? 'done' : i === currentIdx ? 'active' : '';
+        return `<div class="tracker-step ${cls}">
+          <div class="tracker-dot">${i < currentIdx ? '✓' : step.icon}</div>
+          <div class="tracker-label">${step.label}</div>
+        </div>`;
+      }).join('');
+
+      /* items preview thumbnails (max 4) */
+      const thumbs = order.items.slice(0, 4).map(item =>
+        `<img class="toggle-thumb" src="${fixImg(item.img)}" alt="${item.name}" onerror="this.style.display='none'">`
+      ).join('');
+      const moreCount = order.items.length > 4 ? `<span style="font-size:.75rem;color:#aaa;margin-left:4px">+${order.items.length - 4}</span>` : '';
+
+      /* items list */
+      const itemsHtml = order.items.map(item => `
+        <div class="order-item">
+          <div class="order-item-img-wrap">
+            <img src="${fixImg(item.img)}" alt="${item.name}" onerror="this.style.display='none'">
+            <div class="order-item-qty-badge">${item.qty}</div>
+          </div>
+          <div class="order-item-info">
+            <div class="order-item-name">${item.name}</div>
+            <div class="order-item-cat">${item.catLabel || item.cat}</div>
+          </div>
+          <div class="order-item-price">${fmt(item.price * item.qty)}</div>
+        </div>`).join('');
+
+      /* address */
+      const delivAddr = order.delivery.method === 'entrega'
+        ? `${order.delivery.rua}, ${order.delivery.num}${order.delivery.bairro ? ' – ' + order.delivery.bairro : ''}<br><small>${order.delivery.cidade}/${order.delivery.estado}</small>`
+        : `Lojas Nacional<br><small>Capitão Poço, PA</small>`;
+
+      /* totals */
+      const discRow = (+order.discount) > 0
+        ? `<div class="order-totals-row"><span>Desconto</span><span class="totals-green">−${fmt(order.discount)}</span></div>`
+        : '';
+      const freteRow = (+order.frete) > 0
+        ? `<div class="order-totals-row"><span>Frete</span><span>${fmt(order.frete)}</span></div>`
+        : `<div class="order-totals-row"><span>Frete</span><span class="totals-green">Grátis</span></div>`;
+
+      return `
+        <div class="order-card" style="animation-delay:${idx * .07}s">
+          <div class="order-card-inner">
+            <div class="order-accent ${status.key}"></div>
+            <div class="order-content">
+
+              <!-- HEADER -->
+              <div class="order-header">
+                <div class="order-header-left">
+                  <span class="order-id">Pedido ${order.id}</span>
+                  <span class="order-date">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    ${fmtD(order.date)}
+                  </span>
+                </div>
+                <div class="order-header-right">
+                  <span class="status-badge ${status.key}">${status.label}</span>
+                  <span class="order-total">${fmt(order.total)}</span>
+                  <span class="order-items-count">${order.items.length} item${order.items.length !== 1 ? 's' : ''}</span>
+                </div>
+              </div>
+
+              <div class="order-divider"></div>
+
+              <!-- TRACKER -->
+              <div class="order-tracker">
+                <div class="tracker-wrap">${trackerHtml}</div>
+              </div>
+
+              <div class="order-divider"></div>
+
+              <!-- BODY -->
+              <div class="order-body">
+                <button class="order-toggle" onclick="toggleItems(this, ${idx})">
+                  <div class="order-toggle-left">
+                    <span class="toggle-icon">🛍️</span>
+                    <span>Ver ${order.items.length} item${order.items.length !== 1 ? 's' : ''}</span>
+                    <div class="toggle-preview">${thumbs}</div>
+                    ${moreCount}
+                  </div>
+                  <div class="chevron-wrap">▾</div>
+                </button>
+
+                <div class="order-items" id="items-${idx}">
+                  <div class="order-items-inner">
+                    ${itemsHtml}
+
+                    <div class="order-footer-info">
+                      <div class="info-card">
+                        <div class="info-card-label">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                          ${delivIcons[order.delivery.method] || '📦'} ${delivNames[order.delivery.method] || 'Entrega'}
+                        </div>
+                        <div class="info-card-val">${delivAddr}</div>
+                      </div>
+                      <div class="info-card">
+                        <div class="info-card-label">💳 Pagamento</div>
+                        <div class="info-card-val">${payLabels[order.payment] || order.payment}</div>
+                      </div>
+                    </div>
+
+                    <div class="order-totals">
+                      <div class="totals-label">Resumo do pedido</div>
+                      <div class="order-totals-row"><span>Subtotal</span><span>${fmt(order.subtotal)}</span></div>
+                      ${discRow}
+                      ${freteRow}
+                      <div class="order-totals-row final"><span>Total</span><span class="totals-primary">${fmt(order.total)}</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function toggleItems(btn, idx) {
+    const box  = document.getElementById('items-' + idx);
+    const open = box.classList.toggle('show');
+    btn.classList.toggle('open', open);
+  }
+
+  renderOrders();
+
+  /* ════ SEARCH ════ */
+  document.getElementById('searchInput')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.value.trim())
+      window.location.href = `products.html?q=${encodeURIComponent(e.target.value.trim())}`;
+  });
+  document.querySelector('.search-button')?.addEventListener('click', () => {
+    const q = document.getElementById('searchInput').value.trim();
+    if (q) window.location.href = `products.html?q=${encodeURIComponent(q)}`;
+  });
+</script>
+</body>
+</html>
