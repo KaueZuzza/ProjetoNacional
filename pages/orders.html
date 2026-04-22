@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#db0004">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Meus Pedidos – Lojas Nacional</title>
   <link rel="icon" href="../assets/images/Icons/favicon.png">
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -47,7 +50,7 @@
     /* ════════════════════════════════
        PAGE LAYOUT
     ════════════════════════════════ */
-    .orders-page { padding: 40px 0 72px; min-height: 60vh; margin: 50px;}
+    .orders-page { padding: 40px 0 72px; min-height: 60vh; }
 
     /* ════════════════════════════════
        STATS BAR
@@ -411,6 +414,49 @@
       .tracker-dot { width: 30px; height: 30px; font-size: .85rem; }
       .tracker-label { font-size: .62rem; }
       .tracker-step:not(:last-child)::after { top: 15px; left: calc(50% + 15px); width: calc(100% - 30px); }
+    }
+
+    @media (max-width: 480px) {
+      .orders-page { padding: 28px 0 56px; }
+      .orders-hero { padding: 28px 0 36px; }
+      .orders-hero-text h1 { font-size: 1.3rem; }
+      .orders-hero-icon { font-size: 2rem; }
+      .orders-hero-inner { gap: 12px; }
+      .order-card { border-radius: 14px; }
+      .order-header { padding: 14px 14px 10px; gap: 8px; }
+      .order-id { font-size: .95rem; }
+      .order-total { font-size: 1.05rem; }
+      .order-body { padding: 10px 14px 14px; }
+      .order-tracker { padding: 12px 14px; }
+      .order-divider { margin: 0 14px; }
+      .tracker-step { min-width: 60px; }
+      .tracker-dot { width: 26px; height: 26px; font-size: .75rem; }
+      .tracker-label { font-size: .58rem; }
+      .tracker-step:not(:last-child)::after { top: 13px; left: calc(50% + 13px); width: calc(100% - 26px); }
+      .order-item img { width: 52px; height: 52px; }
+      .order-item-name { font-size: .82rem; }
+      .order-item-price { font-size: .85rem; }
+      .stat-pill { font-size: .75rem; padding: 6px 12px; }
+      .orders-empty { padding: 56px 16px 48px; }
+      .orders-empty h3 { font-size: 1.2rem; }
+      .empty-bag { font-size: 4rem; }
+      .empty-cta { padding: 12px 24px; font-size: .85rem; }
+    }
+
+    @media (max-width: 360px) {
+      .orders-page { padding: 20px 0 44px; }
+      .orders-hero-text h1 { font-size: 1.1rem; }
+      .orders-hero-icon { font-size: 1.7rem; }
+      .order-header { padding: 12px 12px 8px; }
+      .order-body { padding: 8px 12px 12px; }
+      .order-tracker { padding: 10px 12px; }
+      .order-divider { margin: 0 12px; }
+      .tracker-step { min-width: 52px; }
+      .tracker-dot { width: 22px; height: 22px; font-size: .65rem; }
+      .tracker-label { font-size: .52rem; }
+      .tracker-step:not(:last-child)::after { top: 11px; left: calc(50% + 11px); width: calc(100% - 22px); }
+      .status-badge { font-size: .65rem; padding: 4px 10px; }
+      .stat-pill { font-size: .7rem; padding: 5px 10px; }
     }
   </style>
 </head>

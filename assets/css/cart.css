@@ -882,3 +882,25 @@
   .step-label { display: none; }
   .step-line { width: 28px; }
 }
+
+@media (max-width: 480px) {
+  /* Botões de quantidade maiores para toque confortável */
+  .qty-btn { width: 40px; height: 40px; font-size: 18px; }
+  .qty-input { width: 40px; height: 40px; font-size: 16px; }
+
+  /* iOS: evita zoom ao focar inputs de checkout */
+  .co-field input,
+  .co-field select,
+  .co-field textarea { font-size: 16px !important; }
+
+  .cart-item { gap: 10px; }
+  .cart-item-img { width: 64px; height: 64px; }
+}
+
+@media (max-width: 360px) {
+  .cart-page, .checkout-page { padding: 16px 3% 40px; }
+  .cart-item { grid-template-columns: 58px 1fr; gap: 8px; }
+  .cart-item-img { width: 58px; height: 58px; }
+  .qty-btn { width: 38px; height: 38px; }
+  .qty-input { width: 36px; height: 38px; }
+}

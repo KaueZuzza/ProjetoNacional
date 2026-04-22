@@ -846,4 +846,23 @@ input[type="range"] {
   .produtos-hero-inner { padding: 22px 0 24px; }
   .hero-texto h1 { font-size: 1.35rem; }
   .hero-texto p { font-size: 11.5px; }
+
+  /* iOS: evita zoom ao focar campo de busca na página de produtos */
+  .sort-inline select { font-size: 16px; }
+}
+
+/* CELULAR MÍNIMO (≤ 360px) */
+@media (max-width: 360px) {
+  .hero-texto h1 { font-size: 1.15rem; }
+  .hero-texto p { font-size: 11px; }
+  .hero-stat strong { font-size: 1.1rem; }
+  .hero-stat span { font-size: 8.5px; }
+  .hero-stat-divider { height: 24px; }
+
+  .cat-tab { padding: 6px 10px; font-size: 10px; }
+  .cat-tab-icon { font-size: 12px; }
+
+  .pg-btn { min-width: 32px; height: 32px; font-size: 11px; }
+
+  .mobile-filtro-bar { padding-top: 8px; }
 }

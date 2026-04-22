@@ -409,6 +409,11 @@
         font-size: 13px;
         padding: 13px;
     }
+    /* iOS: evita zoom ao focar inputs */
+    .auth-field input,
+    .auth-field select {
+        font-size: 16px;
+    }
 }
 
 /* --- CELULAR PEQUENO (≤360px) --- */
